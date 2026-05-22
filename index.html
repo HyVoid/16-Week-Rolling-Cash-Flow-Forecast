@@ -1,0 +1,2021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>16-Week Rolling Cash Flow Forecast & Decision Sandbox</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --color-primary:     #051C2C;
+      --color-accent:      #2251FF;
+      --color-bg:          #F4F4F1;
+      --color-muted:       #8A8A8A;
+      --color-body-text:   #1A1A2E;
+      --color-positive:    #00875A;
+      --color-negative:    #C92A2A;
+      --color-surface:     #FFFFFF;
+      --color-input-bg:    #FFFDE7;
+      --color-border:      #E5E5E2;
+      --nav-bg-blur:       rgba(5, 28, 44, 0.88);
+      --nav-backdrop:      blur(24px) saturate(200%);
+      --font-heading:      'EB Garamond', Georgia, serif;
+      --font-body:         'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --text-page-title:   28px;
+      --text-section:      17px;
+      --text-kpi-value:    32px;
+      --text-table-head:   11px;
+      --text-body:         13px;
+      --text-label:        10px;
+      --tracking-display:  -0.03em;
+      --tracking-heading:  -0.02em;
+      --tracking-label:     0.06em;
+      --space-xs:   4px;
+      --space-sm:   8px;
+      --space-md:   16px;
+      --space-lg:   24px;
+      --space-xl:   40px;
+      --space-2xl:  64px;
+      --radius-sm:   6px;
+      --radius-md:   10px;
+      --radius-lg:   14px;
+      --radius-pill: 100px;
+      --shadow-sm:
+        0 1px 2px rgba(5,28,44,0.04),
+        0 2px 8px rgba(5,28,44,0.06);
+      --shadow-md:
+        0 2px 4px  rgba(5,28,44,0.04),
+        0 8px 24px rgba(5,28,44,0.09),
+        0 1px 0px rgba(255,255,255,0.6) inset;
+      --shadow-lg:
+        0 4px 8px  rgba(5,28,44,0.06),
+        0 16px 48px rgba(5,28,44,0.14),
+        0 1px 0px rgba(255,255,255,0.5) inset;
+      --shadow-nav:
+        0 1px 0px rgba(255,255,255,0.06),
+        0 4px 20px rgba(5,28,44,0.35);
+      --ease-standard: cubic-bezier(0.25,0.46,0.45,0.94);
+      --ease-spring:   cubic-bezier(0.34,1.56,0.64,1.0);
+      --ease-decel:    cubic-bezier(0.0,0.0,0.2,1.0);
+      --ease-accel:    cubic-bezier(0.4,0.0,1.0,1.0);
+      --dur-fast:   150ms;
+      --dur-normal: 250ms;
+      --dur-slow:   400ms;
+      --nav-width-collapsed: 52px;
+      --nav-width-expanded:  216px;
+      --header-height: 56px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--color-bg);
+      color: var(--color-body-text);
+      font-family: var(--font-body);
+      font-size: var(--text-body);
+      line-height: 1.6;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+
+    /* ── LAYOUT ─────────────────────────────────────────── */
+    .app-shell {
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ── SIDEBAR NAV ────────────────────────────────────── */
+    .sidebar {
+      width: var(--nav-width-collapsed);
+      background: var(--color-primary);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-nav);
+      z-index: 100;
+      position: relative;
+      overflow: hidden;
+      transition: width var(--dur-normal) var(--ease-standard);
+    }
+
+    .sidebar:hover {
+      width: var(--nav-width-expanded);
+    }
+
+    .sidebar-brand {
+      height: 56px;
+      display: flex;
+      align-items: center;
+      padding: 0;
+      flex-shrink: 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .brand-icon {
+      width: var(--nav-width-collapsed);
+      min-width: var(--nav-width-collapsed);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-heading);
+      font-size: 16px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.75);
+      letter-spacing: 0.02em;
+      flex-shrink: 0;
+    }
+
+    .brand-text {
+      padding-right: 16px;
+      opacity: 0;
+      transform: translateX(-4px);
+      transition:
+        opacity var(--dur-normal) var(--ease-standard),
+        transform var(--dur-normal) var(--ease-standard);
+    }
+
+    .sidebar:hover .brand-text {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .brand-text h1 {
+      font-family: var(--font-heading);
+      font-size: 15px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.88);
+      letter-spacing: var(--tracking-heading);
+      line-height: 1.25;
+    }
+
+    .brand-text p {
+      font-size: 10px;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: var(--tracking-label);
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 8px 0;
+    }
+
+    .sidebar-nav::-webkit-scrollbar { width: 0; }
+
+    .nav-group {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .nav-group + .nav-group {
+      margin-top: 4px;
+    }
+
+    .nav-group + .nav-group::before {
+      content: '';
+      display: block;
+      height: 1px;
+      margin: 4px 12px 8px;
+      background: rgba(255,255,255,0.07);
+    }
+
+    .nav-group-label {
+      display: flex;
+      align-items: center;
+      height: 36px;
+      overflow: hidden;
+      white-space: nowrap;
+      cursor: default;
+      position: relative;
+    }
+
+    .nav-group-icon {
+      width: var(--nav-width-collapsed);
+      min-width: var(--nav-width-collapsed);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 13px;
+      color: rgba(255,255,255,0.35);
+      transition: color var(--dur-fast) var(--ease-standard);
+    }
+
+    .nav-group-label::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.03);
+      backdrop-filter: blur(8px);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      opacity: 0;
+      transition: opacity var(--dur-normal) var(--ease-standard);
+      pointer-events: none;
+    }
+
+    .sidebar:hover .nav-group-label::after {
+      opacity: 1;
+    }
+
+    .nav-group-text {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.28);
+      opacity: 0;
+      transform: translateX(-4px);
+      transition:
+        opacity var(--dur-normal) var(--ease-standard),
+        transform var(--dur-normal) var(--ease-standard);
+      white-space: nowrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    .sidebar:hover .nav-group-text {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .nav-group.has-active .nav-group-icon {
+      color: rgba(255,255,255,0.65);
+    }
+
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      height: 36px;
+      padding: 0;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      transition: background var(--dur-fast) var(--ease-standard);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    }
+
+    .nav-btn-spacer {
+      width: var(--nav-width-collapsed);
+      min-width: var(--nav-width-collapsed);
+      flex-shrink: 0;
+    }
+
+    .nav-btn-label {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.5);
+      opacity: 0;
+      transform: translateX(-4px);
+      transition:
+        opacity var(--dur-normal) var(--ease-standard),
+        transform var(--dur-normal) var(--ease-standard),
+        color var(--dur-fast) var(--ease-standard);
+      white-space: nowrap;
+    }
+
+    .sidebar:hover .nav-btn-label {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .nav-btn:hover .nav-btn-label {
+      color: rgba(255,255,255,0.78);
+    }
+
+    .nav-btn:hover {
+      background: rgba(255,255,255,0.05);
+    }
+
+    .nav-btn.active {
+      background: rgba(34,81,255,0.14);
+    }
+
+    .nav-btn.active::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 2px;
+      height: 55%;
+      background: var(--color-accent);
+      border-radius: 0 1px 1px 0;
+    }
+
+    .nav-btn.active .nav-btn-label {
+      color: rgba(255,255,255,0.92);
+    }
+
+    .sidebar-footer {
+      padding: 12px 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      overflow: hidden;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      height: 40px;
+    }
+
+    .footer-icon {
+      width: var(--nav-width-collapsed);
+      min-width: var(--nav-width-collapsed);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: rgba(255,255,255,0.18);
+    }
+
+    .footer-text {
+      font-size: 10px;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: var(--tracking-label);
+      opacity: 0;
+      transition: opacity var(--dur-normal) var(--ease-standard);
+    }
+
+    .sidebar:hover .footer-text { opacity: 1; }
+
+    /* ── MAIN AREA ──────────────────────────────────────── */
+    .main-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-width: 0;
+    }
+
+    /* ── TOP HEADER ─────────────────────────────────────── */
+    .top-header {
+      height: var(--header-height);
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--space-xl);
+      flex-shrink: 0;
+      z-index: 50;
+    }
+
+    .header-title {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--color-body-text);
+      letter-spacing: var(--tracking-heading);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .btn-reset {
+      padding: 6px 14px;
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--color-negative);
+      background: transparent;
+      border: 1px solid rgba(201,42,42,0.25);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition:
+        background var(--dur-fast) var(--ease-standard),
+        border-color var(--dur-fast) var(--ease-standard);
+    }
+
+    .btn-reset:hover {
+      background: rgba(201,42,42,0.05);
+      border-color: rgba(201,42,42,0.55);
+    }
+
+    .btn-reset:active { transform: scale(0.97); }
+
+    .header-badge {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--color-muted);
+      background: var(--color-bg);
+      padding: 5px 12px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--color-border);
+      letter-spacing: var(--tracking-label);
+    }
+
+    /* ── PAGE CONTENT ───────────────────────────────────── */
+    .page-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: var(--space-xl);
+    }
+
+    .page-content::-webkit-scrollbar { width: 6px; }
+    .page-content::-webkit-scrollbar-track { background: transparent; }
+    .page-content::-webkit-scrollbar-thumb {
+      background: rgba(5,28,44,0.12);
+      border-radius: 3px;
+    }
+
+    .tab-content { display: none; }
+    .tab-content.active {
+      display: block;
+      animation: fadeUp var(--dur-slow) var(--ease-decel) both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── CARDS ──────────────────────────────────────────── */
+    .card {
+      background: var(--color-surface);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      padding: var(--space-lg);
+      border: 1px solid rgba(5, 28, 44, 0.03);
+      transition:
+        transform var(--dur-normal) var(--ease-spring),
+        box-shadow var(--dur-normal) var(--ease-standard);
+    }
+
+    .card:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* ── KPI GRID ───────────────────────────────────────── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+
+    .kpi-card {
+      background: var(--color-surface);
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(5, 28, 44, 0.03);
+      box-shadow: var(--shadow-sm);
+      padding: var(--space-md) var(--space-lg);
+      transition: transform var(--dur-normal) var(--ease-spring), box-shadow var(--dur-normal) var(--ease-standard);
+    }
+
+    .kpi-card:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .kpi-label {
+      font-family: var(--font-body);
+      font-size: var(--text-label);
+      font-weight: 500;
+      color: rgba(5,28,44,0.42);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-label);
+      margin-bottom: var(--space-xs);
+    }
+
+    .kpi-value {
+      font-family: var(--font-heading);
+      font-size: 26px;
+      font-weight: 500;
+      color: var(--color-body-text);
+      letter-spacing: var(--tracking-display);
+      line-height: 1.1;
+    }
+
+    .kpi-value.at-risk { color: var(--color-negative); }
+    .kpi-value.at-simulated { color: var(--color-accent); }
+
+    /* ── DASHBOARD LAYOUT ───────────────────────────────── */
+    .dash-row {
+      display: grid;
+      gap: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+
+    .dash-row.cols-5-3 {
+      grid-template-columns: 5fr 3fr;
+    }
+
+    /* ── DECISION SIMULATOR PANEL ────────────────────────── */
+    .simulation-header {
+      border-bottom: 1px solid var(--color-border);
+      padding-bottom: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+
+    .simulation-badge {
+      display: inline-block;
+      font-size: 9px;
+      font-weight: 600;
+      background: rgba(34,81,255,0.08);
+      color: var(--color-accent);
+      padding: 2px 8px;
+      border-radius: var(--radius-pill);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .playbook-container {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .playbook-card {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      background: #FAFAF9;
+      transition: all var(--dur-normal) var(--ease-standard);
+      position: relative;
+    }
+
+    .playbook-card.active {
+      border-color: var(--color-accent);
+      background: rgba(34, 81, 255, 0.01);
+      box-shadow: 0 4px 12px rgba(34, 81, 255, 0.05);
+    }
+
+    .playbook-card.risk-alert {
+      border-color: rgba(201, 42, 42, 0.3);
+      background: rgba(201, 42, 42, 0.01);
+    }
+
+    .playbook-card.risk-alert.active {
+      border-color: var(--color-negative);
+      background: rgba(201, 42, 42, 0.02);
+    }
+
+    .playbook-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: var(--space-xs);
+    }
+
+    .playbook-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-body-text);
+      line-height: 1.3;
+    }
+
+    .playbook-impact {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-positive);
+      background: rgba(0, 135, 144, 0.08);
+      padding: 1px 6px;
+      border-radius: var(--radius-sm);
+    }
+
+    .playbook-desc {
+      font-size: 11px;
+      color: var(--color-muted);
+      line-height: 1.4;
+      margin-bottom: var(--space-sm);
+    }
+
+    .playbook-action-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px dashed var(--color-border);
+      padding-top: var(--space-sm);
+    }
+
+    /* Toggle Switch */
+    .switch-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--color-muted);
+    }
+    
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 38px;
+      height: 20px;
+    }
+
+    .switch input { 
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background-color: rgba(5, 28, 44, 0.15);
+      transition: .3s;
+      border-radius: 20px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 14px;
+      width: 14px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--color-accent);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(18px);
+    }
+
+    /* ── CHART SIZES ────────────────────────────────────── */
+    .chart-wrapper      { height: 260px; position: relative; }
+    .chart-wrapper-tall { height: 220px; position: relative; }
+
+    /* ── SECTION HEADER ─────────────────────────────────── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-md);
+    }
+
+    .section-title {
+      font-family: var(--font-heading);
+      font-size: var(--text-section);
+      font-weight: 500;
+      color: var(--color-body-text);
+      letter-spacing: var(--tracking-heading);
+    }
+
+    .section-tag {
+      font-size: 10px;
+      font-weight: 400;
+      padding: 2px 8px;
+      border-radius: var(--radius-pill);
+      letter-spacing: 0.02em;
+      color: var(--color-muted);
+      background: rgba(5,28,44,0.04);
+    }
+
+    /* ── GRID LAYOUTS ───────────────────────────────────── */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-md);
+    }
+
+    .grid-3-1 {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      gap: var(--space-md);
+    }
+
+    .mb-xl { margin-bottom: var(--space-xl); }
+    .mb-lg { margin-bottom: var(--space-lg); }
+    .mb-md { margin-bottom: var(--space-md); }
+
+    /* ── TABLES ─────────────────────────────────────────── */
+    .table-container {
+      overflow-x: auto;
+      overflow-y: auto;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border);
+    }
+
+    .table-container.max-h-sm { max-height: 320px; }
+    .table-container.max-h-md { max-height: 440px; }
+    .table-container.max-h-lg { max-height: 520px; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--text-body);
+    }
+
+    thead {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    thead th {
+      background: var(--color-primary);
+      color: rgba(255,255,255,0.85);
+      font-family: var(--font-body);
+      font-size: var(--text-table-head);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-label);
+      padding: 10px var(--space-md);
+      text-align: left;
+      white-space: nowrap;
+      border-bottom: none;
+    }
+
+    thead th:first-child { border-radius: var(--radius-sm) 0 0 0; }
+    thead th:last-child  { border-radius: 0 var(--radius-sm) 0 0; }
+    thead th.align-right { text-align: right; }
+    thead th.align-center { text-align: center; }
+
+    tbody tr {
+      transition: background var(--dur-fast) var(--ease-standard);
+    }
+
+    tbody tr:nth-child(even) { background: #FAFAF9; }
+    tbody tr:nth-child(odd)  { background: var(--color-surface); }
+    tbody tr:hover { background: rgba(34,81,255,0.02); }
+
+    td {
+      padding: 10px var(--space-md);
+      border-bottom: 1px solid rgba(5,28,44,0.05);
+      font-size: var(--text-body);
+      color: var(--color-body-text);
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+
+    td.mono { font-variant-numeric: tabular-nums; font-weight: 500; }
+    td.align-right { text-align: right; }
+    td.align-center { text-align: center; }
+    td.text-muted { color: var(--color-muted); font-size: 11px; }
+
+    td.amount-positive {
+      color: var(--color-positive);
+      font-weight: 500;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    td.amount-negative {
+      color: var(--color-negative);
+      font-weight: 500;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    td.amount-neutral {
+      font-weight: 400;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      color: var(--color-body-text);
+    }
+
+    td.highlight-bg {
+      background: rgba(255,251,200,0.3);
+    }
+
+    td.risk-cell {
+      background: rgba(201,42,42,0.04);
+      color: var(--color-negative);
+      font-weight: 700;
+    }
+
+    /* ── STATUS BADGES ──────────────────────────────────── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 1px 7px;
+      border-radius: var(--radius-pill);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+      color: var(--color-muted);
+      background: rgba(5,28,44,0.05);
+    }
+
+    .badge.safe    { background: rgba(0,135,90,0.06);  color: var(--color-positive); }
+    .badge.risk    { background: rgba(201,42,42,0.06); color: var(--color-negative); }
+    .badge.neutral { background: rgba(5,28,44,0.05);   color: var(--color-muted); }
+
+    /* ── SETUP FORM GRID ────────────────────────────────── */
+    .setup-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-lg);
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: var(--space-md);
+    }
+
+    .form-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-label);
+      color: var(--color-primary);
+    }
+
+    .form-sublabel {
+      font-size: 10px;
+      color: var(--color-muted);
+      margin-top: -2px;
+    }
+
+    .form-input, select {
+      background: var(--color-input-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: 8px var(--space-md);
+      font-family: var(--font-body);
+      font-size: var(--text-body);
+      color: var(--color-body-text);
+      width: 100%;
+      transition: border-color var(--dur-fast) var(--ease-standard), box-shadow var(--dur-fast) var(--ease-standard);
+    }
+
+    .form-input:focus, select:focus {
+      outline: none;
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 3px rgba(34,81,255,0.08);
+    }
+
+    .setup-card {
+      background: var(--color-surface);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      padding: var(--space-xl);
+      border: 1px solid rgba(5, 28, 44, 0.03);
+    }
+
+    .setup-title {
+      font-family: var(--font-heading);
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--color-body-text);
+      letter-spacing: var(--tracking-heading);
+      margin-bottom: 2px;
+    }
+
+    .setup-sub {
+      font-size: 11px;
+      color: var(--color-muted);
+      margin-bottom: var(--space-lg);
+      padding-bottom: var(--space-md);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .slider-container {
+      margin-top: var(--space-sm);
+      margin-bottom: var(--space-lg);
+    }
+
+    .slider-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      color: var(--color-muted);
+      margin-top: 2px;
+    }
+
+    /* Range input styling overrides */
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      background: transparent;
+    }
+
+    input[type=range]:focus {
+      outline: none;
+    }
+
+    input[type=range]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 6px;
+      cursor: pointer;
+      background: var(--color-border);
+      border-radius: 3px;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      height: 16px;
+      width: 16px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      cursor: pointer;
+      -webkit-appearance: none;
+      margin-top: -5px;
+    }
+
+    .btn-inject {
+      background: var(--color-primary);
+      color: #FFFFFF;
+      padding: 10px 16px;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background var(--dur-fast) var(--ease-standard);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: var(--space-sm);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-inject:hover {
+      background: var(--color-accent);
+    }
+
+    /* ── WEEK ROW RISK HIGHLIGHT ────────────────────────── */
+    tr.week-risk td { background: rgba(201,42,42,0.01) !important; }
+    tr.week-risk td.risk-cell { background: rgba(201,42,42,0.06) !important; }
+
+    .divider {
+      height: 1px;
+      background: var(--color-border);
+      margin: var(--space-xl) 0;
+    }
+
+    .mono { font-variant-numeric: tabular-nums; }
+
+    /* Alert Notice Bar */
+    .alert-banner {
+      background: rgba(201,42,42,0.07);
+      border: 1px solid rgba(201,42,42,0.15);
+      border-radius: var(--radius-md);
+      padding: var(--space-sm) var(--space-md);
+      font-size: 12px;
+      color: var(--color-negative);
+      margin-bottom: var(--space-md);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .alert-banner.success {
+      background: rgba(0,135,90,0.07);
+      border-color: rgba(0,135,90,0.15);
+      color: var(--color-positive);
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="app-shell">
+  <!-- ── SIDEBAR ─────────────────────────────────── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">CF</div>
+      <div class="brand-text">
+        <h1>Cash Flow</h1>
+        <p>16-Week Rolling</p>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav" id="sidebar-nav">
+      <!-- Group 1: Strategic Command -->
+      <div class="nav-group has-active" id="group-command">
+        <div class="nav-group-label">
+          <div class="nav-group-icon">◈</div>
+          <span class="nav-group-text">Command Center</span>
+        </div>
+        <button class="nav-btn active" onclick="switchTab('dashboard')" id="btn-dashboard">
+          <div class="nav-btn-spacer"></div>
+          <span class="nav-btn-label">Scenario Sandbox</span>
+        </button>
+      </div>
+
+      <!-- Group 2: Operational inputs -->
+      <div class="nav-group" id="group-input">
+        <div class="nav-group-label">
+          <div class="nav-group-icon">↓</div>
+          <span class="nav-group-text">Input Registry</span>
+        </div>
+        <button class="nav-btn" onclick="switchTab('setup')" id="btn-setup">
+          <div class="nav-btn-spacer"></div>
+          <span class="nav-btn-label">Setup & Parameters</span>
+        </button>
+        <button class="nav-btn" onclick="switchTab('qbo')" id="btn-qbo">
+          <div class="nav-btn-spacer"></div>
+          <span class="nav-btn-label">Ledger: A/R &amp; A/P</span>
+        </button>
+        <button class="nav-btn" onclick="switchTab('sos')" id="btn-sos">
+          <div class="nav-btn-spacer"></div>
+          <span class="nav-btn-label">Supply Chain Orders</span>
+        </button>
+        <button class="nav-btn" onclick="switchTab('fixed')" id="btn-fixed">
+          <div class="nav-btn-spacer"></div>
+          <span class="nav-btn-label">Fixed Expenses</span>
+        </button>
+      </div>
+
+      <!-- Group 3: Analytical Drilldowns -->
+      <div class="nav-group" id="group-analysis">
+        <div class="nav-group-label">
+          <div class="nav-group-icon">▤</div>
+          <span class="nav-group-text">Analysis & Logs</span>
+        </div>
+        <button class="nav-btn" onclick="switchTab('eventlog')" id="btn-eventlog">
+          <div class="nav-btn-spacer"></div>
+          <span class="nav-btn-label">Unified Event Log</span>
+        </button>
+        <button class="nav-btn" onclick="switchTab('forecast')" id="btn-forecast">
+          <div class="nav-btn-spacer"></div>
+          <span class="nav-btn-label">16-Week Matrix</span>
+        </button>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="footer-icon">·</div>
+      <span class="footer-text">Base Date: 2026-06-01</span>
+    </div>
+  </aside>
+
+  <!-- ── MAIN AREA ───────────────────────────────── -->
+  <div class="main-area">
+    <header class="top-header">
+      <span class="header-title" id="page-title">Scenario Sandbox</span>
+      <div class="header-actions">
+        <button class="btn-reset" onclick="resetData()">Restore Default Model</button>
+        <span class="header-badge">BASE SYSTEM DATE: 2026-06-01</span>
+      </div>
+    </header>
+
+    <main class="page-content" id="main-content">
+
+      <!-- ── TAB: DASHBOARD ───────────────────────── -->
+      <div id="tab-dashboard" class="tab-content active">
+
+        <!-- Cash flow dynamics advisory banner -->
+        <div id="risk-banner" class="alert-banner">
+          <!-- Populated dynamically by script -->
+        </div>
+
+        <!-- KPI Grid Metrics -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">Opening Cash Position</div>
+            <div class="kpi-value mono" id="db-start-cash">$0</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Projected Ending Cash</div>
+            <div class="kpi-value mono" id="db-end-cash">$0</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Safety Buffer Threshold</div>
+            <div class="kpi-value mono" id="db-min-buffer">$0</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Projected Deficit Weeks</div>
+            <div class="kpi-value mono" id="db-risk-weeks">0</div>
+          </div>
+        </div>
+
+        <!-- Split Command Panel Layout -->
+        <div class="dash-row cols-5-3">
+          
+          <!-- Left Panel: Projected Rolling Liquidity Horizon Curve -->
+          <div class="card">
+            <div class="section-header">
+              <span class="section-title">16-Week Projected Liquidity Horizon</span>
+              <span class="section-tag" id="chart-status-badge">Baseline Projection</span>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="trendChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Right Panel: Strategic Playbook Scenarios -->
+          <div class="card">
+            <div class="simulation-header">
+              <div class="simulation-badge">What-If Interventions</div>
+              <p style="font-size:11px; color:var(--color-muted); margin-top:2px;">Toggle strategic levers to dynamically simulate optimized cash flow horizons.</p>
+            </div>
+
+            <div class="playbook-container">
+              
+              <!-- Playbook Action A -->
+              <div class="playbook-card" id="playbook-ar">
+                <div class="playbook-meta">
+                  <span class="playbook-title">Lever A: Expedite High-Value A/R</span>
+                  <span class="playbook-impact">Accelerate Inflows</span>
+                </div>
+                <p class="playbook-desc">
+                  Collect Customer A's overdue receivables <b>INV-1001 ($15,000)</b> 7 days earlier, shifting payment date from June 15 to June 8.
+                </p>
+                <div class="playbook-action-row">
+                  <span class="switch-label">Simulate Early Collection</span>
+                  <label class="switch">
+                    <input type="checkbox" id="sim-expedite-ar" onchange="toggleSimulation()">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Playbook Action B -->
+              <div class="playbook-card risk-alert" id="playbook-po">
+                <div class="playbook-meta">
+                  <span class="playbook-title" style="color:var(--color-negative)">Lever B: Defer Non-Urgent P/O Liabilities</span>
+                  <span class="playbook-impact" style="color:var(--color-negative); background:rgba(201,42,42,0.06)">Postpone Outflows</span>
+                </div>
+                <p class="playbook-desc">
+                  Negotiate terms on <b>PO-8888 ($12,000)</b> with Packaging Vendor Y, delaying payment by 14 days to August 24 to preserve June capital.
+                </p>
+                <div class="playbook-action-row">
+                  <span class="switch-label">Simulate Delayed Outflow</span>
+                  <label class="switch">
+                    <input type="checkbox" id="sim-defer-po" onchange="toggleSimulation()">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ── TAB: SETUP ────────────────────────────── -->
+      <div id="tab-setup" class="tab-content">
+        <!-- Interactive Alert Bar specifically for Setup feedbacks -->
+        <div id="setup-alert" class="alert-banner" style="display:none;"></div>
+
+        <div class="setup-grid">
+          
+          <!-- Column A: Operational Configuration & Multipliers -->
+          <div class="setup-card">
+            <div class="setup-title">Global Cash Parameters</div>
+            <div class="setup-sub">Modify general variables and financial parameters driving the simulation engines.</div>
+
+            <div class="form-group">
+              <div class="form-label">Initial Cash On Hand (USD)</div>
+              <div class="form-sublabel">starting_cash_balance</div>
+              <input type="number" id="setup-start-cash" onchange="updateSetup()" class="form-input">
+            </div>
+            <div class="form-group">
+              <div class="form-label">Safety Buffer Threshold (USD)</div>
+              <div class="form-sublabel">target_min_cash_balance</div>
+              <input type="number" id="setup-min-buffer" onchange="updateSetup()" class="form-input">
+            </div>
+            <div class="form-group">
+              <div class="form-label">SO Tail Payment Advance Period (Days)</div>
+              <div class="form-sublabel">tail_payment_days_before_ship</div>
+              <input type="number" id="setup-so-days" onchange="updateSetup()" class="form-input">
+            </div>
+            <div class="form-group">
+              <div class="form-label">Standard Purchase Term Limits (Days)</div>
+              <div class="form-sublabel">standard_po_payment_term_days</div>
+              <input type="number" id="setup-po-days" onchange="updateSetup()" class="form-input">
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="setup-title">Interactive Sensitivity Adjusters</div>
+            <div class="setup-sub">Slide parameters to instantly scale macro financial behaviors across the cash horizon.</div>
+
+            <div class="form-group">
+              <div class="form-label">Inflow Scaling Factor: <span id="val-inflow-factor">100%</span></div>
+              <div class="form-sublabel">Optimism multiplier applied directly to projected revenues and customer receipts.</div>
+              <div class="slider-container">
+                <input type="range" id="setup-inflow-factor" min="50" max="150" value="100" oninput="updateSensitivityFactor()">
+                <div class="slider-labels">
+                  <span>50% (Pessimistic)</span>
+                  <span>100% (Baseline)</span>
+                  <span>150% (Optimistic)</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="form-label">Outflow Constraint Factor: <span id="val-outflow-factor">100%</span></div>
+              <div class="form-sublabel">Inflation multiplier applied to supplier expenses, fixed bills, and operating costs.</div>
+              <div class="slider-container">
+                <input type="range" id="setup-outflow-factor" min="50" max="150" value="100" oninput="updateSensitivityFactor()">
+                <div class="slider-labels">
+                  <span>50% (Frugal)</span>
+                  <span>100% (Baseline)</span>
+                  <span>150% (Inflation)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column B: Interactive Custom Transaction Injector -->
+          <div class="setup-card">
+            <div class="setup-title">Custom Ledger Transaction Injector</div>
+            <div class="setup-sub">Manually inject discrete cash flow events directly into the live forecasting pipelines.</div>
+
+            <div class="form-group">
+              <div class="form-label">Transaction Category</div>
+              <select id="inject-category">
+                <option value="AR">Accounts Receivable (A/R Invoice Receipt)</option>
+                <option value="AP">Accounts Payable (A/P Bill Outflow)</option>
+                <option value="SO">Expected Sales Order (SO Deposit & Tail Inflow)</option>
+                <option value="PO">Future Purchase Order (Supplier Outflow)</option>
+                <option value="FIXED">Fixed Operational Expense (Recurring Outflow)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <div class="form-label">Scheduled Execution Date</div>
+              <input type="date" id="inject-date" class="form-input" value="2026-06-15">
+            </div>
+
+            <div class="form-group">
+              <div class="form-label">Transaction Amount (USD)</div>
+              <input type="number" id="inject-amount" class="form-input" placeholder="e.g. 10000" min="1">
+            </div>
+
+            <div class="form-group">
+              <div class="form-label">Counterparty / Description</div>
+              <input type="text" id="inject-desc" class="form-input" placeholder="e.g. Corporate Client Z, Monthly Software Fees">
+            </div>
+
+            <div class="form-group">
+              <div class="form-label">Reference ID (Invoice/PO Number)</div>
+              <input type="text" id="inject-ref" class="form-input" placeholder="e.g. INV-2026-01, PO-7777">
+            </div>
+
+            <button type="button" class="btn-inject" onclick="injectTransaction()">Inject Transaction to Ledger</button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── TAB: QBO ──────────────────────────────── -->
+      <div id="tab-qbo" class="tab-content">
+        <div class="grid-2 mb-xl">
+          <div class="card">
+            <div class="section-header">
+              <span class="section-title">QBO Accounts Receivable (A/R)</span>
+              <span class="section-tag">Aging Ledger Registry</span>
+            </div>
+            <div class="table-container max-h-md">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Customer Name</th>
+                    <th>Invoice ID</th>
+                    <th>Due Date</th>
+                    <th class="align-right">Open Balance</th>
+                  </tr>
+                </thead>
+                <tbody id="qbo-ar-rows"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="section-header">
+              <span class="section-title">QBO Accounts Payable (A/P)</span>
+              <span class="section-tag">Bill Register Registry</span>
+            </div>
+            <div class="table-container max-h-md">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Vendor Name</th>
+                    <th>Bill ID</th>
+                    <th>Payment Deadline</th>
+                    <th class="align-right">Outstanding Balance</th>
+                    <th>PO Ref (Dedup Bridge Key)</th>
+                  </tr>
+                </thead>
+                <tbody id="qbo-ap-rows"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TAB: SOS ──────────────────────────────── -->
+      <div id="tab-sos" class="tab-content">
+        <div class="grid-2 mb-xl">
+          <div class="card">
+            <div class="section-header">
+              <span class="section-title">Sales Orders In Flight (SOS)</span>
+              <span class="section-tag">Tail payment computed: shipping date − setup parameter</span>
+            </div>
+            <div class="table-container max-h-md">
+              <table>
+                <thead>
+                  <tr>
+                    <th>SO Number</th>
+                    <th>Customer Name</th>
+                    <th class="align-right">Gross Total</th>
+                    <th class="align-right">Prepaid Deposit</th>
+                    <th>Est. Ship Date</th>
+                    <th>Integration State</th>
+                    <th class="align-right">Net Expected Balance</th>
+                  </tr>
+                </thead>
+                <tbody id="sos-so-rows"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="section-header">
+              <span class="section-title">Active Purchase Orders (SOS)</span>
+              <span class="section-tag">Liabilities computed: receive date + term limit</span>
+            </div>
+            <div class="table-container max-h-md">
+              <table>
+                <thead>
+                  <tr>
+                    <th>PO Number</th>
+                    <th>Vendor Name</th>
+                    <th class="align-right">Purchase Amount</th>
+                    <th>Payment Terms</th>
+                    <th>Est. Receipt Date</th>
+                    <th>Integration State</th>
+                    <th class="align-right">Net Projected Outflow</th>
+                  </tr>
+                </thead>
+                <tbody id="sos-po-rows"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TAB: FIXED ─────────────────────────────── -->
+      <div id="tab-fixed" class="tab-content">
+        <div class="card" style="max-width:560px; margin: 0 auto;">
+          <div class="section-header">
+            <span class="section-title">Rigid Fixed Expenditures</span>
+            <span class="section-tag">Operational Budget Schedule</span>
+          </div>
+          <div class="table-container max-h-md">
+            <table>
+              <thead>
+                <tr>
+                  <th>Scheduled Date</th>
+                  <th class="align-right">Budget Amount</th>
+                  <th>Cost Allocation / Description</th>
+                </tr>
+              </thead>
+              <tbody id="fixed-rows"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TAB: EVENT LOG ─────────────────────────── -->
+      <div id="tab-eventlog" class="tab-content">
+        <div class="card">
+          <div class="section-header">
+            <span class="section-title">Unified Liquidity Event Stream</span>
+            <span class="section-tag">Cross-Ledger Amortization &amp; Aggregated Payments</span>
+          </div>
+          <div class="table-container max-h-lg">
+            <table>
+              <thead>
+                <tr>
+                  <th>Execution Date</th>
+                  <th class="align-right">Cash Effect</th>
+                  <th>Source Category</th>
+                  <th>Document Ref</th>
+                  <th>Transaction Description</th>
+                </tr>
+              </thead>
+              <tbody id="event-log-rows"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── TAB: FORECAST ──────────────────────────── -->
+      <div id="tab-forecast" class="tab-content">
+        <div class="card">
+          <div class="section-header">
+            <span class="section-title">16-Week Rolling Forecast Matrix</span>
+            <span class="section-tag">Calculated weekly window (Starting Mondays)</span>
+          </div>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Week Starting (Mon)</th>
+                  <th class="align-right">Beginning Balance</th>
+                  <th class="align-right">Inflows (+)</th>
+                  <th class="align-right">Outflows (−)</th>
+                  <th class="align-right">Weekly Net Flow</th>
+                  <th class="align-right">Ending Balance</th>
+                  <th class="align-center">Status</th>
+                </tr>
+              </thead>
+              <tbody id="weekly-forecast-rows"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script>
+  const BASE_DATE = "2026-06-01";
+
+  // Default immutable ledger payload
+  let default_state = {
+    setup: { start_cash: 125000, min_buffer: 50000, so_days: 5, po_days: 60, inflow_factor: 1.0, outflow_factor: 1.0 },
+    qbo_ar: [
+      { customer: "Customer A (Wholesale Div)", invoice: "INV-1001", due_date: "2026-06-15", open_balance: 15000 },
+      { customer: "Customer B (Key Corporate)", invoice: "SO-9082",  due_date: "2026-06-22", open_balance: 10000 }
+    ],
+    qbo_ap: [
+      { vendor: "Global Manufacturer Ltd X", bill: "BILL-5001", due_date: "2026-06-25", open_balance: 5000, po_ref: "PO-9999" }
+    ],
+    sos_so: [
+      { so_number: "SO-9082", customer: "Customer B (Key Corporate)", total: 20000, deposit: 10000, est_ship: "2026-06-22", status: "Open" },
+      { so_number: "SO-9083", customer: "Customer C (Direct Retail)",      total: 30000, deposit: 15000, est_ship: "2026-06-29", status: "Open" }
+    ],
+    sos_po: [
+      { po_number: "PO-9999", vendor: "Global Manufacturer Ltd X", total: 5000,  terms: "Prepay",  est_receipt: "2026-06-25", po_date: "2026-06-01" },
+      { po_number: "PO-8888", vendor: "Domestic Packaging Group Y",      total: 12000, terms: "Net 60",  est_receipt: "2026-06-10", po_date: "2026-04-10" }
+    ],
+    fixed_exp: [
+      { date: "2026-06-05", amount: 3000, desc: "HQ Commercial Lease" },
+      { date: "2026-06-12", amount: 4500, desc: "Cloud Resources & SaaS Overhead" }
+    ]
+  };
+
+  // Mutable state reference 
+  let state = JSON.parse(JSON.stringify(default_state));
+  let myChart = null;
+  let event_log = [];
+  let weekly_forecast = [];
+
+  // Sandbox switch variables
+  let isSimulateAR = false;
+  let isSimulatePO = false;
+
+  const TAB_GROUPS = {
+    dashboard: 'group-command',
+    setup:     'group-input',
+    qbo:       'group-input',
+    sos:       'group-input',
+    fixed:     'group-input',
+    eventlog:  'group-analysis',
+    forecast:  'group-analysis'
+  };
+
+  const TAB_TITLES = {
+    dashboard: "Scenario Sandbox Center",
+    setup:     "Operational Setup & live Parameter Adjusters",
+    qbo:       "QBO Accounts Receivable & Accounts Payable Ledger",
+    sos:       "Supply Chain Sales Orders & Purchase Orders Registry",
+    fixed:     "Fixed Operating Budgets Schedule",
+    eventlog:  "Amortized Unified Event Log Stream",
+    forecast:  "16-Week Projected Forecast Cash Flow Matrix"
+  };
+
+  function switchTab(tabId) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.getElementById(`tab-${tabId}`).classList.add('active');
+
+    document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+    document.getElementById(`btn-${tabId}`).classList.add('active');
+
+    document.querySelectorAll('.nav-group').forEach(g => g.classList.remove('has-active'));
+    const groupId = TAB_GROUPS[tabId];
+    if (groupId) document.getElementById(groupId).classList.add('has-active');
+
+    document.getElementById('page-title').innerText = TAB_TITLES[tabId];
+
+    if (tabId === 'dashboard') {
+      renderChart();
+    }
+  }
+
+  function resetData() {
+    state = JSON.parse(JSON.stringify(default_state));
+    isSimulateAR = false;
+    isSimulatePO = false;
+    document.getElementById('sim-expedite-ar').checked = false;
+    document.getElementById('sim-defer-po').checked = false;
+    document.getElementById('playbook-ar').classList.remove('active');
+    document.getElementById('playbook-po').classList.remove('active');
+    
+    initFormValues();
+    runEngine();
+    clearSetupAlert();
+  }
+
+  function initFormValues() {
+    document.getElementById('setup-start-cash').value = state.setup.start_cash;
+    document.getElementById('setup-min-buffer').value = state.setup.min_buffer;
+    document.getElementById('setup-so-days').value    = state.setup.so_days;
+    document.getElementById('setup-po-days').value    = state.setup.po_days;
+    document.getElementById('setup-inflow-factor').value  = Math.round(state.setup.inflow_factor * 100);
+    document.getElementById('setup-outflow-factor').value = Math.round(state.setup.outflow_factor * 100);
+    document.getElementById('val-inflow-factor').innerText = Math.round(state.setup.inflow_factor * 100) + '%';
+    document.getElementById('val-outflow-factor').innerText = Math.round(state.setup.outflow_factor * 100) + '%';
+  }
+
+  function updateSetup() {
+    state.setup.start_cash = parseFloat(document.getElementById('setup-start-cash').value) || 0;
+    state.setup.min_buffer = parseFloat(document.getElementById('setup-min-buffer').value) || 0;
+    state.setup.so_days    = parseInt(document.getElementById('setup-so-days').value) || 0;
+    state.setup.po_days    = parseInt(document.getElementById('setup-po-days').value) || 0;
+    runEngine();
+  }
+
+  function updateSensitivityFactor() {
+    const inflowVal = parseInt(document.getElementById('setup-inflow-factor').value) || 100;
+    const outflowVal = parseInt(document.getElementById('setup-outflow-factor').value) || 100;
+    
+    state.setup.inflow_factor = inflowVal / 100;
+    state.setup.outflow_factor = outflowVal / 100;
+
+    document.getElementById('val-inflow-factor').innerText = inflowVal + '%';
+    document.getElementById('val-outflow-factor').innerText = outflowVal + '%';
+
+    runEngine();
+  }
+
+  function toggleSimulation() {
+    isSimulateAR = document.getElementById('sim-expedite-ar').checked;
+    isSimulatePO = document.getElementById('sim-defer-po').checked;
+
+    const pbAR = document.getElementById('playbook-ar');
+    const pbPO = document.getElementById('playbook-po');
+    
+    if (isSimulateAR) pbAR.classList.add('active'); else pbAR.classList.remove('active');
+    if (isSimulatePO) pbPO.classList.add('active'); else pbPO.classList.remove('active');
+
+    runEngine();
+  }
+
+  function injectTransaction() {
+    const category = document.getElementById('inject-category').value;
+    const date = document.getElementById('inject-date').value;
+    const amount = parseFloat(document.getElementById('inject-amount').value) || 0;
+    const desc = document.getElementById('inject-desc').value || "Injected Transaction Entry";
+    let ref = document.getElementById('inject-ref').value;
+
+    if (!date) {
+      showSetupAlert("Please specify a valid transaction date.", "error");
+      return;
+    }
+    if (amount <= 0) {
+      showSetupAlert("Transaction volume must be greater than zero.", "error");
+      return;
+    }
+    if (!ref) {
+      ref = "TXN-" + Math.floor(Math.random() * 9000 + 1000);
+    }
+
+    if (category === "AR") {
+      state.qbo_ar.push({ customer: desc, invoice: ref, due_date: date, open_balance: amount });
+    } else if (category === "AP") {
+      state.qbo_ap.push({ vendor: desc, bill: ref, due_date: date, open_balance: amount, po_ref: "" });
+    } else if (category === "SO") {
+      state.sos_so.push({ so_number: ref, customer: desc, total: amount, deposit: 0, est_ship: date, status: "Open" });
+    } else if (category === "PO") {
+      state.sos_po.push({ po_number: ref, vendor: desc, total: amount, terms: "Net 60", est_receipt: date, po_date: BASE_DATE });
+    } else if (category === "FIXED") {
+      state.fixed_exp.push({ date: date, amount: amount, desc: desc });
+    }
+
+    runEngine();
+    showSetupAlert(`Success: ${category} Transaction (${ref}) has been successfully compiled across all sub-ledgers.`, "success");
+    
+    // Reset specific injection inputs for usability
+    document.getElementById('inject-amount').value = "";
+    document.getElementById('inject-desc').value = "";
+    document.getElementById('inject-ref').value = "";
+  }
+
+  function showSetupAlert(msg, level) {
+    const el = document.getElementById('setup-alert');
+    el.innerText = msg;
+    el.style.display = "block";
+    if (level === "success") {
+      el.className = "alert-banner success";
+    } else {
+      el.className = "alert-banner";
+    }
+  }
+
+  function clearSetupAlert() {
+    document.getElementById('setup-alert').style.display = "none";
+  }
+
+  function addDays(dateStr, days) {
+    let d = new Date(dateStr);
+    d.setDate(d.getDate() + days);
+    return d.toISOString().split('T')[0];
+  }
+
+  function getMonday(dateStr) {
+    let d = new Date(dateStr);
+    let day = d.getDay();
+    let diff = d.getDate() - day + (day === 0 ? -6 : 1);
+    return new Date(d.setDate(diff)).toISOString().split('T')[0];
+  }
+
+  function fmt(n) { return '$' + Math.abs(n).toLocaleString(); }
+
+  // Forecast Processing Sandbox Core Engine
+  function runEngine() {
+    event_log = [];
+
+    // Scale factors from setup tab sliders
+    const inScale = state.setup.inflow_factor;
+    const outScale = state.setup.outflow_factor;
+
+    // 1. Process Accounts Receivable (QBO AR)
+    state.qbo_ar.forEach(item => {
+      let targetDate = item.due_date;
+      let descNote = "A/R Invoice Receipt: " + item.customer;
+      
+      // Sandbox Strategy A: Expedite INV-1001 by 7 Days
+      if (isSimulateAR && item.invoice === "INV-1001") {
+        targetDate = addDays(item.due_date, -7);
+        descNote += " (Simulated Playbook Intervention: Expedited 7 Days)";
+      }
+
+      event_log.push({
+        date: targetDate,
+        amount: item.open_balance * inScale,
+        type: "QBO A/R",
+        id: item.invoice,
+        desc: descNote
+      });
+    });
+
+    // 2. Process Accounts Payable (QBO AP)
+    state.qbo_ap.forEach(item => {
+      event_log.push({
+        date: item.due_date,
+        amount: -item.open_balance * outScale,
+        type: "QBO A/P",
+        id: item.bill,
+        desc: "A/P Liability Settlement: " + item.vendor
+      });
+    });
+
+    // 3. Process Sales Orders (SOS SO)
+    state.sos_so.forEach(item => {
+      let in_ar  = state.qbo_ar.some(ar => ar.invoice === item.so_number);
+      let amount = (item.status === "Closed" || in_ar) ? 0 : (item.total - item.deposit);
+      let tail   = addDays(item.est_ship, -state.setup.so_days);
+      if (amount > 0) {
+        event_log.push({
+          date: tail,
+          amount: amount * inScale,
+          type: "Sales Order Tail",
+          id: item.so_number,
+          desc: "Projected SO Tail: " + item.customer + (in_ar ? " (Exempted to prevent duplication with A/R)" : "")
+        });
+      }
+    });
+
+    // 4. Process Purchase Orders (SOS PO)
+    state.sos_po.forEach(item => {
+      let in_ap  = state.qbo_ap.some(ap => ap.po_ref === item.po_number);
+      let amount = in_ap ? 0 : -item.total;
+      
+      let payDate = item.terms === "Prepay" ? item.po_date : addDays(item.est_receipt, state.setup.po_days);
+      let descNote = "Projected PO Liability: " + item.vendor + (in_ap ? " (Exempted to prevent duplication with A/P)" : "");
+
+      // Sandbox Strategy B: Defer PO-8888 by 14 Days
+      if (isSimulatePO && item.po_number === "PO-8888") {
+        payDate = addDays(payDate, 14);
+        descNote += " (Simulated Playbook Intervention: Postponed 14 Days)";
+      }
+
+      if (amount !== 0) {
+        event_log.push({
+          date: payDate,
+          amount: amount * outScale,
+          type: "Future Purchase Order",
+          id: item.po_number,
+          desc: descNote
+        });
+      }
+    });
+
+    // 5. Process Rigid Fixed Costs
+    state.fixed_exp.forEach(item => {
+      event_log.push({
+        date: item.date,
+        amount: -item.amount * outScale,
+        type: "Fixed Expenses",
+        id: "FIXED",
+        desc: "Fixed Budget Allocation: " + item.desc
+      });
+    });
+
+    // Sort complete Event Stream Chronologically
+    event_log.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    // Aggregate Transactions into 16 Weekly Windows (Monday Starting)
+    weekly_forecast = [];
+    let monday = getMonday(BASE_DATE);
+    for (let i = 0; i < 16; i++) {
+      let ws = addDays(monday, i * 7);
+      let we = addDays(ws, 6);
+      let inflows  = event_log.filter(e => e.date >= ws && e.date <= we && e.amount > 0).reduce((s, e) => s + e.amount, 0);
+      let outflows = event_log.filter(e => e.date >= ws && e.date <= we && e.amount < 0).reduce((s, e) => s + e.amount, 0);
+      weekly_forecast.push({ week_start: ws, inflows, outflows });
+    }
+
+    // Accumulate Weekly Cash Carry-forward values
+    let cash = state.setup.start_cash;
+    weekly_forecast.forEach(wf => {
+      wf.beginning = cash;
+      wf.net = wf.inflows + wf.outflows;
+      wf.ending = wf.beginning + wf.net;
+      cash = wf.ending;
+    });
+
+    renderAllTables();
+  }
+
+  function renderAllTables() {
+    let final_cash = weekly_forecast[15].ending;
+    let risk_weeks = weekly_forecast.filter(wf => wf.ending < state.setup.min_buffer).length;
+
+    // Direct DOM KPI Updates
+    document.getElementById('db-start-cash').innerText = '$' + state.setup.start_cash.toLocaleString(undefined, {maximumFractionDigits:0});
+    document.getElementById('db-end-cash').innerText   = '$' + final_cash.toLocaleString(undefined, {maximumFractionDigits:0});
+    document.getElementById('db-min-buffer').innerText = '$' + state.setup.min_buffer.toLocaleString(undefined, {maximumFractionDigits:0});
+
+    let riskEl = document.getElementById('db-risk-weeks');
+    riskEl.innerText = risk_weeks;
+    
+    // Conditional styling indicators
+    if (risk_weeks > 0) {
+      riskEl.className = 'kpi-value mono at-risk';
+    } else {
+      riskEl.className = 'kpi-value mono';
+    }
+
+    const chartBadge = document.getElementById('chart-status-badge');
+    const isUnderSim = isSimulateAR || isSimulatePO || state.setup.inflow_factor !== 1.0 || state.setup.outflow_factor !== 1.0;
+    
+    if (isUnderSim) {
+      chartBadge.innerText = "Intervention Simulation Active";
+      chartBadge.style.color = "var(--color-accent)";
+      chartBadge.style.background = "rgba(34,81,255,0.06)";
+    } else {
+      chartBadge.innerText = "Baseline Cash Model";
+      chartBadge.style.color = "var(--color-muted)";
+      chartBadge.style.background = "rgba(5,28,44,0.04)";
+    }
+
+    let endEl = document.getElementById('db-end-cash');
+    if (final_cash < state.setup.min_buffer) {
+      endEl.className = 'kpi-value mono at-risk';
+    } else if (isUnderSim) {
+      endEl.className = 'kpi-value mono at-simulated';
+    } else {
+      endEl.className = 'kpi-value mono';
+    }
+
+    // Dynamic warning alert banners
+    const banner = document.getElementById('risk-banner');
+    if (risk_weeks > 0) {
+      banner.className = "alert-banner";
+      banner.innerHTML = `⚠️ <b>Liquidity Position Alert:</b> Projection identifies <b>${risk_weeks}</b> week(s) falling below the target $${state.setup.min_buffer.toLocaleString()} safety buffer. Leverage the Sandbox Interventions or fine-tune factors in the parameters section to optimize performance.`;
+    } else {
+      banner.className = "alert-banner success";
+      if (isUnderSim) {
+        banner.innerHTML = `✨ <b>Horizon Optimization Successful:</b> Applied interventions successfully mitigated cash deficit peaks. All 16 weekly cash points reside above the required capital buffer limits.`;
+      } else {
+        banner.innerHTML = `✓ <b>Robust Baseline Position:</b> Liquidity profile is robust and healthy. All 16 weekly intervals remain comfortably above target buffers.`;
+      }
+    }
+
+    // Render QBO AR Ledger
+    document.getElementById('qbo-ar-rows').innerHTML = state.qbo_ar.map(item => `
+      <tr>
+        <td>${item.customer}</td>
+        <td class="mono">${item.invoice}</td>
+        <td class="mono">${item.due_date}</td>
+        <td class="amount-positive">${fmt(item.open_balance)}</td>
+      </tr>`).join('');
+
+    // Render QBO AP Ledger
+    document.getElementById('qbo-ap-rows').innerHTML = state.qbo_ap.map(item => `
+      <tr>
+        <td>${item.vendor}</td>
+        <td class="mono">${item.bill}</td>
+        <td class="mono">${item.due_date}</td>
+        <td class="amount-negative">${fmt(item.open_balance)}</td>
+        <td class="mono highlight-bg" style="font-weight:600">${item.po_ref ? item.po_ref : 'No Bridge Key'}</td>
+      </tr>`).join('');
+
+    // Render SOS SO Ledger
+    document.getElementById('sos-so-rows').innerHTML = state.sos_so.map(item => {
+      let in_ar  = state.qbo_ar.some(ar => ar.invoice === item.so_number);
+      let amount = (item.status === "Closed" || in_ar) ? 0 : (item.total - item.deposit);
+      return `<tr>
+        <td class="mono">${item.so_number}</td>
+        <td>${item.customer}</td>
+        <td class="amount-neutral">${fmt(item.total)}</td>
+        <td class="amount-neutral">${fmt(item.deposit)}</td>
+        <td class="mono">${item.est_ship}</td>
+        <td><span class="badge ${in_ar ? 'risk' : 'safe'}">${in_ar ? 'Reconciled to AR' : 'Open In Flight'}</span></td>
+        <td class="amount-neutral">${fmt(amount)}</td>
+      </tr>`;
+    }).join('');
+
+    // Render SOS PO Ledger
+    document.getElementById('sos-po-rows').innerHTML = state.sos_po.map(item => {
+      let in_ap  = state.qbo_ap.some(ap => ap.po_ref === item.po_number);
+      let amount = in_ap ? 0 : item.total;
+      return `<tr>
+        <td class="mono">${item.po_number}</td>
+        <td>${item.vendor}</td>
+        <td class="amount-neutral">${fmt(item.total)}</td>
+        <td><span class="badge neutral">${item.terms}</span></td>
+        <td class="mono">${item.est_receipt}</td>
+        <td><span class="badge ${in_ap ? 'risk' : 'safe'}">${in_ap ? 'Reconciled to AP' : 'Awaiting Receipt'}</span></td>
+        <td class="amount-neutral">${fmt(amount)}</td>
+      </tr>`;
+    }).join('');
+
+    // Render Fixed Overhead Budget Ledger
+    document.getElementById('fixed-rows').innerHTML = state.fixed_exp.map(item => `
+      <tr>
+        <td class="mono">${item.date}</td>
+        <td class="amount-negative">${fmt(item.amount)}</td>
+        <td>${item.desc}</td>
+      </tr>`).join('');
+
+    // Render Unified Aggregate Event Stream Logs
+    document.getElementById('event-log-rows').innerHTML = event_log.map(e => {
+      let pos = e.amount > 0;
+      let amt = (pos ? '+' : '−') + fmt(e.amount);
+      let cls = pos ? 'amount-positive' : 'amount-negative';
+      return `<tr>
+        <td class="mono">${e.date}</td>
+        <td class="${cls}">${amt}</td>
+        <td><span class="badge neutral">${e.type}</span></td>
+        <td class="mono text-muted">${e.id}</td>
+        <td>${e.desc}</td>
+      </tr>`;
+    }).join('');
+
+    // Render 16-Week Forecast Liquidity Matrices
+    document.getElementById('weekly-forecast-rows').innerHTML = weekly_forecast.map(wf => {
+      let risk   = wf.ending < state.setup.min_buffer;
+      let endCls = risk ? 'risk-cell align-right' : 'amount-neutral';
+      let netPos = wf.net >= 0;
+      let flag   = risk
+        ? '<span class="badge risk">⚠ Deficit Risk</span>'
+        : '<span class="badge safe">✓ Secured</span>';
+      return `<tr class="${risk ? 'week-risk' : ''}">
+        <td class="mono">${wf.week_start}</td>
+        <td class="amount-neutral">$${wf.beginning.toLocaleString(undefined, {maximumFractionDigits:0})}</td>
+        <td class="amount-positive">+$${wf.inflows.toLocaleString(undefined, {maximumFractionDigits:0})}</td>
+        <td class="amount-negative">−$${Math.abs(wf.outflows).toLocaleString(undefined, {maximumFractionDigits:0})}</td>
+        <td class="${netPos ? 'amount-positive' : 'amount-negative'}">${netPos ? '+' : '−'}$${Math.abs(wf.net).toLocaleString(undefined, {maximumFractionDigits:0})}</td>
+        <td class="${endCls}">$${wf.ending.toLocaleString(undefined, {maximumFractionDigits:0})}</td>
+        <td class="align-center">${flag}</td>
+      </tr>`;
+    }).join('');
+
+    // Synchronize current chart renderings
+    if (document.getElementById('tab-dashboard').classList.contains('active')) {
+      renderChart();
+    }
+  }
+
+  // Draw refined single-line Projected Liquidity horizon
+  function renderChart() {
+    const ctx = document.getElementById('trendChart').getContext('2d');
+    const labels   = weekly_forecast.map(wf => wf.week_start.slice(5)); // MM-DD
+    const balances = weekly_forecast.map(wf => wf.ending);
+    const minLine  = Array(16).fill(state.setup.min_buffer);
+
+    if (myChart) { myChart.destroy(); }
+
+    const pointColors = balances.map(v =>
+      v < state.setup.min_buffer ? '#C92A2A' : '#2251FF'
+    );
+
+    myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'Projected Balance',
+            data: balances,
+            borderColor: '#2251FF',
+            backgroundColor: 'rgba(34,81,255,0.02)',
+            borderWidth: 2,
+            tension: 0.15,
+            fill: true,
+            pointBackgroundColor: pointColors,
+            pointBorderColor: pointColors,
+            pointRadius: 4,
+            pointHoverRadius: 6
+          },
+          {
+            label: 'Safety Threshold Limit',
+            data: minLine,
+            borderColor: '#C92A2A',
+            borderDash: [6, 4],
+            borderWidth: 1.2,
+            pointRadius: 0,
+            fill: false
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        scales: {
+          y: {
+            grid: { color: 'rgba(5,28,44,0.03)', drawBorder: false },
+            border: { display: false },
+            ticks: {
+              color: 'rgba(5,28,44,0.35)',
+              font: { family: 'DM Sans', size: 10 },
+              callback: v => '$' + v.toLocaleString()
+            }
+          },
+          x: {
+            grid: { display: false },
+            border: { display: false },
+            ticks: { color: 'rgba(5,28,44,0.35)', font: { family: 'DM Sans', size: 9 } }
+          }
+        },
+        plugins: {
+          legend: {
+            position: 'top',
+            align: 'end',
+            labels: {
+              color: 'rgba(5,28,44,0.55)',
+              font: { family: 'DM Sans', size: 11 },
+              boxWidth: 8, boxHeight: 2, padding: 12
+            }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(5,28,44,0.95)',
+            titleFont: { family: 'DM Sans', size: 11 },
+            bodyFont:  { family: 'DM Sans', size: 11 },
+            padding: 10, cornerRadius: 6,
+            callbacks: {
+              label: c => '  ' + c.dataset.label + ':  $' + c.parsed.y.toLocaleString(undefined, {maximumFractionDigits:0})
+            }
+          }
+        }
+      }
+    });
+  }
+
+  window.onload = function() {
+    initFormValues();
+    runEngine();
+    switchTab('dashboard');
+  };
+</script>
+
+</body>
+</html>

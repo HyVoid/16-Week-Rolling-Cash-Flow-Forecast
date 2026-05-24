@@ -1,151 +1,276 @@
+# Cash Flow Visibility Framework
 
-# English Version
+**Language / Langue / اللغة**
 
-## Short-term Cash Flow Control Sandbox
-
-Built from real client cases, this framework is designed to help decision-makers clearly explain the core problem, the solution logic, and the business value.
-
----
-
-## 1. Problem Definition: The Gap Between Business Commitments and Cash Visibility
-
-Many companies face the same structural issue: accounts receivable and accounts payable in the accounting system do not fully reflect the cash inflows and outflows that will actually happen in the near term. Two important types of commitments often sit outside the traditional financial view:
-
-- **Customer prepayments / staged payments**: for example, deposits collected for custom orders, or final balances due before shipment. These amounts may appear as liabilities or deferred revenue in accounting, but the actual timing of cash receipt directly determines available liquidity.
-- **Future purchasing commitments to suppliers**: issued purchase orders, especially those with long lead times or payment terms such as advance payment, cash on delivery, or net terms after receipt. Before the goods are shipped or invoiced, these future cash outflows are often invisible in the books.
-
-When a company relies only on monthly financial reports or bank balances to manage liquidity, a dangerous timing gap appears. Operations keeps creating new orders that will affect future cash flow, while finance cannot combine that information into a dynamic short-cycle cash picture. The result is usually:
-
-- **Late detection of funding mismatches**: cash shortages are discovered only when payment is already due.
-- **Insufficient decision support**: when evaluating customer credit terms or supplier prepayment conditions, the team cannot quickly quantify the cash impact and can only rely on experience.
-- **A conflict between growth and risk**: the more the business grows, the more orders and purchasing commitments accumulate, and the harder it becomes to see the real cash risk. In some cases, companies end up with profit on paper but no cash in the bank.
+[🇬🇧 English](#english) · [🇫🇷 Français](#français) · [🇸🇦 العربية](#العربية)
 
 ---
 
-## 2. Typical Company Profile
+<a name="english"></a>
 
-This problem is most common in growing businesses with one or more of the following characteristics:
+## 🇬🇧 English
 
-- **Staged payment structures**: customer deposits, final payment before shipment, or milestone-based project billing.
-- **Complex supply chains**: long procurement lead times, often ranging from weeks to months, with multiple payment terms such as prepayment, payment on delivery, or post-receipt settlement.
-- **Fragmented business and finance systems**: sales and purchasing are managed in separate order or inventory systems, while accounting is kept in another tool that does not connect cleanly with operations data.
-- **High sensitivity to short-term liquidity**: the company cannot easily rely on large credit facilities and depends heavily on internally generated cash to keep operations running.
+> Switch language: [Français](#français) · [العربية](#العربية)
 
-Typical industries include consumer brands, wholesale and trading, industrial manufacturing and OEM/ODM, project-based engineering or professional services firms, and cross-border e-commerce.
+### Cash Flow Visibility Framework
 
----
-
-## 3. The Business Logic Behind the Solution
-
-The idea is not to deploy an expensive and complex software stack. The goal is to build a **short-term cash flow control sandbox**.
-
-The core principle is simple:
-
-**Collect, translate, and align future cash commitments scattered across departments into a rolling, short-horizon decision map.**
-
-This sandbox does three things:
-
-1. **Aggregates data without duplication**  
-   It combines receivables and payables from the finance system with open sales orders and purchase orders from operational systems. Through predefined matching rules, it automatically identifies and excludes purchase orders that have already become financial invoices, ensuring each expected cash inflow or outflow is counted only once.
-
-2. **Translates business language into cash language**  
-   An expected shipment date is converted into an expected collection date according to contract terms. An expected delivery date plus the agreed payment term becomes the expected payment date. This makes the cash impact of all operational activity visible in specific weeks and amounts.
-
-3. **Creates a dynamic warning system**  
-   Based on the company’s minimum safe cash threshold, it generates clear trend charts. Management can see how the cash balance will move over the coming weeks, when it may drop below the warning line, and which large inflows or outflows create the gap.
-
-This tool is, in essence, a spreadsheet model that can be refreshed manually every week. The design principle is **maximum transparency and easy maintenance**. It avoids black-box logic, so finance and operations teams can keep using it with confidence instead of abandoning it due to complexity or lack of trust.
+A lightweight, transparent decision tool that turns scattered order and payment data into a rolling 16-week cash forecast — built for operations-driven, growth-stage businesses.
 
 ---
 
-## 4. Business Impact and Management Improvement
+### Table of Contents
 
-For decision-makers, the change shows up in three ways:
-
-- **From reactive firefighting to proactive scheduling**  
-  Cash management shifts from looking backward to looking forward 16 weeks. Leaders can see funding gaps weeks in advance and arrange collections, delay payments, or prepare bridge financing in a controlled way.
-
-- **Better commercial negotiation and decision-making**  
-  When evaluating a new customer order or supplier term, the company can immediately test the condition in the sandbox and quantify its effect on short-term cash safety. Decisions move from intuition-driven to data-driven, and the business team gains stronger negotiation leverage.
-
-- **A unified discipline for cash management**  
-  Sales, purchasing, and finance work from the same cash forecast view. Every function can see how its actions affect liquidity, making responsibility for working capital more transparent and easier to manage.
-
-The final result is not a one-time report. It is a repeatable capability to understand the short-term financial life of the business. That capability helps growing companies expand with discipline and avoid operational disruption caused by poor cash visibility.
+- [The Problem](#the-problem)
+- [Who This Is For](#who-this-is-for)
+- [How It Works](#how-it-works)
+- [Business Outcomes](#business-outcomes)
 
 ---
 
-# Version Française
+### The Problem
 
-## Bac à sable de pilotage de trésorerie à court terme
+Most growing businesses manage cash using monthly financial statements or bank balances. These sources have a structural blind spot: they only capture obligations that have already been invoiced. Two categories of future cash commitments remain invisible:
 
-À partir de cas clients réels, ce cadre a été construit pour aider les décideurs à expliquer clairement la nature du problème, la logique de la solution et la valeur créée.
+- **Customer pre-payments and milestone receipts** — deposits and pre-shipment payments that are contractually agreed but not yet recognized as revenue. Their actual inflow timing determines real available liquidity.
+- **Committed supplier purchase orders** — especially long-lead-time orders with pre-payment or post-delivery payment terms. Until goods ship and invoices are raised, these certain cash outflows do not appear on any ledger.
 
----
+The consequence is a dangerous **perception lag**: sales and procurement teams continuously generate new cash commitments while finance has no mechanism to consolidate these into a dynamic, short-horizon cash picture. This leads to three recurring failure modes:
 
-## 1. Définition du problème : l’écart entre les engagements opérationnels et la visibilité de trésorerie
-
-De nombreuses entreprises font face au même problème structurel : les créances et dettes comptables ne reflètent pas complètement les entrées et sorties de trésorerie qui vont réellement se produire à court terme. Deux catégories d’engagements échappent souvent à la vision financière classique :
-
-- **Les acomptes clients / paiements échelonnés** : par exemple, les acomptes encaissés pour des commandes sur mesure, ou le solde à payer avant expédition. En comptabilité, ces montants peuvent apparaître comme des dettes ou des revenus différés, mais leur date réelle d’encaissement détermine directement la liquidité disponible.
-- **Les engagements d’achat futurs auprès des fournisseurs** : bons de commande déjà émis, surtout lorsqu’ils impliquent des délais longs ou des conditions de règlement telles que prépaiement, paiement à la livraison ou paiement à échéance après réception. Avant l’expédition ou la facturation, cette sortie de trésorerie future reste souvent invisible dans les comptes.
-
-Lorsqu’une entreprise s’appuie uniquement sur les rapports financiers mensuels ou sur le solde bancaire pour piloter sa trésorerie, un décalage temporel dangereux apparaît. Les opérations continuent à générer de nouvelles commandes qui auront un impact sur les flux futurs, tandis que la finance ne peut pas intégrer ces éléments dans une vision de trésorerie dynamique à court cycle. Cela conduit généralement à :
-
-- **Une détection tardive des déséquilibres de trésorerie** : les tensions de paiement sont découvertes trop tard, souvent au moment même où elles deviennent critiques.
-- **Un manque d’éléments pour décider** : face à des conditions de paiement client ou à des exigences d’acompte fournisseur, l’équipe ne peut pas mesurer rapidement l’impact sur la trésorerie et doit se fier à l’expérience.
-- **Une tension entre croissance et risque** : plus l’activité augmente, plus les commandes et les engagements d’achat se multiplient, et plus le risque devient difficile à voir. Dans certains cas, l’entreprise affiche un bénéfice comptable tout en manquant de cash.
+| Failure Mode | Manifestation |
+|---|---|
+| **Late discovery of mismatches** | Cash shortfalls are only detected when a payment is due — triggering reactive crisis management |
+| **Decisions made without data** | Evaluating a customer's payment terms or a supplier's prepayment demand relies on intuition, not calculation |
+| **Growth amplifies risk** | The faster the business grows, the larger the volume of invisible commitments — "profitable on paper, illiquid in practice" |
 
 ---
 
-## 2. Profil type des entreprises concernées
+### Who This Is For
 
-Ce problème apparaît le plus souvent dans les entreprises en croissance qui présentent une ou plusieurs des caractéristiques suivantes :
+This framework is designed for growth-stage companies with one or more of the following characteristics:
 
-- **Des modèles de transaction avec paiements échelonnés** : acomptes clients, solde avant expédition, ou facturation par étapes selon l’avancement des projets.
-- **Une chaîne d’approvisionnement complexe** : délais d’approvisionnement longs, souvent de plusieurs semaines à plusieurs mois, avec plusieurs modalités de paiement comme le prépaiement, le paiement à la livraison ou le règlement à échéance.
-- **Des systèmes opérationnels et financiers fragmentés** : les ventes et les achats sont gérés dans des systèmes séparés de commandes ou de stock, tandis que la comptabilité est tenue dans un autre outil sans intégration fluide.
-- **Une forte sensibilité à la liquidité à court terme** : l’entreprise ne peut pas compter facilement sur des lignes de crédit importantes et dépend fortement du cash généré en interne pour fonctionner.
+- **Staged payment structures** — customer deposits, pre-shipment balance payments, or project-milestone billing
+- **Complex supply chains** — procurement lead times measured in weeks or months, with mixed payment terms (prepay, COD, net terms)
+- **Disconnected systems** — order management or inventory systems that do not feed directly into the accounting platform
+- **High sensitivity to working capital** — limited revolving credit access; operations funded primarily by internally generated cash flow
 
-Les secteurs typiques incluent les marques de biens de consommation, le négoce et la distribution, la fabrication industrielle et l’OEM/ODM, les sociétés de projets ou de services professionnels, ainsi que l’e-commerce transfrontalier.
-
----
-
-## 3. La logique business de la solution
-
-L’objectif n’est pas de déployer une suite logicielle coûteuse et complexe. Il s’agit de construire un **bac à sable de pilotage de trésorerie à court terme**.
-
-Le principe central est le suivant :
-
-**Collecter, traduire et aligner les engagements de trésorerie futurs dispersés entre les équipes afin de créer une carte de décision glissante sur quelques semaines.**
-
-Ce bac à sable remplit trois fonctions :
-
-1. **Agréger les données sans doublonner**  
-   Il combine les créances et dettes issues du système comptable avec les commandes clients et fournisseurs encore ouvertes dans les systèmes opérationnels. Grâce à des règles de rapprochement définies à l’avance, il identifie et exclut automatiquement les bons de commande déjà transformés en facture comptable, afin que chaque flux de trésorerie attendu ne soit compté qu’une seule fois.
-
-2. **Traduire le langage métier en langage trésorerie**  
-   Une date d’expédition prévue est automatiquement convertie en date d’encaissement prévue selon les conditions contractuelles. Une date de réception prévue, additionnée du délai de paiement convenu, devient la date de décaissement prévue. Ainsi, l’impact de toutes les opérations sur la trésorerie se matérialise en semaines et en montants précis.
-
-3. **Mettre en place un système d’alerte dynamique**  
-   À partir d’un seuil minimal de trésorerie défini par l’entreprise, le modèle génère des graphiques de tendance clairs. La direction peut voir l’évolution du solde de trésorerie sur les semaines à venir, le moment où il risque de passer sous le seuil d’alerte, ainsi que les principaux encaissements et décaissements responsables de l’écart.
-
-Cet outil est, en pratique, un modèle tableur que l’on peut actualiser manuellement chaque semaine. Son principe de conception est la **transparence maximale et la facilité de maintenance**. Il évite les mécanismes opaques, afin que les équipes finance et opérations puissent l’utiliser avec confiance, sans crainte de mauvaise manipulation ni rejet lié à la complexité.
+**Typical sectors:** consumer goods brands, wholesale and trading businesses, industrial manufacturing and contract production, engineering and professional services firms, cross-border e-commerce operators.
 
 ---
 
-## 4. Effets business et amélioration du pilotage
+### How It Works
 
-Pour la direction, le changement se manifeste à trois niveaux :
+The core mechanism is a **Short-Term Cash Flow Control Board** — a manually refreshable spreadsheet model built on three operating principles:
 
-- **Passer d’une logique de réaction à une logique d’anticipation**  
-  Le pilotage de trésorerie passe d’une lecture du passé à une projection sur 16 semaines. Les responsables peuvent repérer un besoin de financement plusieurs semaines à l’avance et organiser les encaissements, ajuster les paiements ou préparer une solution relais de manière maîtrisée.
+#### 1. Single-entry data aggregation
 
-- **Renforcer la négociation et la décision commerciale**  
-  Lorsqu’il faut évaluer une nouvelle commande client ou une condition fournisseur, il est possible de tester immédiatement l’impact dans le bac à sable et de quantifier son effet sur la sécurité de trésorerie à court terme. La décision ne repose plus uniquement sur l’intuition, mais sur des éléments chiffrés.
+Financial system A/R and A/P records are merged with open sales orders and purchase orders from operational systems. A matching ruleset automatically identifies and excludes purchase orders that have already generated invoices, ensuring each expected cash movement is counted exactly once.
 
-- **Installer une discipline commune de gestion de trésorerie**  
-  Les équipes commerciales, achats et finance travaillent à partir de la même vision prévisionnelle du cash. L’impact de chaque action devient visible et traçable, ce qui renforce la responsabilité collective sur le besoin en fonds de roulement.
+#### 2. Operational language → Cash language
 
-Au final, l’entreprise n’obtient pas un rapport ponctuel. Elle obtient une capacité continue à comprendre sa santé de trésorerie à court terme. Cette capacité permet aux entreprises en croissance de se développer avec plus de discipline, tout en évitant les interruptions d’activité causées par un manque de visibilité sur le cash.
-```
+| Operational signal | Derived cash event |
+|---|---|
+| Estimated shipment date + contract terms | Expected customer receipt date |
+| Estimated goods arrival date + agreed payment terms | Expected supplier payment date |
+
+Every operational activity is translated into a specific week and a specific cash amount.
+
+#### 3. Dynamic alert layer
+
+A minimum safe cash threshold is defined by the business. The model automatically generates a rolling trend chart showing projected cash balance week by week, highlighting when the balance is forecast to breach the threshold and which specific transactions drive the gap.
+
+**Design principle:** The model is intentionally transparent and manually maintainable. No black-box logic. Any finance or operations team member can understand, update, and trust it.
+
+---
+
+### Business Outcomes
+
+| Dimension | Before | After |
+|---|---|---|
+| **Time horizon** | Looking backward at last month's results | Looking forward across the next 16 weeks |
+| **Cash gap response** | Reactive — discovered when payment falls due | Proactive — visible weeks in advance |
+| **Commercial decisions** | Intuition-driven | Quantified impact modelled before committing |
+| **Cross-functional alignment** | Sales, procurement, and finance operating on different data | All functions oriented to the same cash forecast |
+
+The output is not a one-time report. It is an **institutional capability** — the ability to continuously monitor the short-term cash viability of the business. This enables growth-stage companies to scale at pace without the operational interruptions caused by insufficient cash-flow visibility.
+
+---
+
+<a name="français"></a>
+
+## 🇫🇷 Français
+
+> Changer de langue : [English](#english) · [العربية](#العربية)
+
+### Cadre de Visibilité des Flux de Trésorerie
+
+Un outil de décision léger et transparent qui transforme les données de commandes et de paiements dispersées en une prévision de trésorerie glissante sur 16 semaines — conçu pour les entreprises en phase de croissance pilotées par les opérations.
+
+---
+
+### Table des matières
+
+- [Le Problème](#le-problème)
+- [Pour Qui](#pour-qui)
+- [Comment Ça Fonctionne](#comment-ça-fonctionne)
+- [Résultats Opérationnels](#résultats-opérationnels)
+
+---
+
+### Le Problème
+
+La plupart des entreprises en croissance gèrent leur trésorerie à partir des états financiers mensuels ou des soldes bancaires. Ces sources présentent un angle mort structurel : elles ne capturent que les obligations déjà facturées. Deux catégories d'engagements de trésorerie futurs restent invisibles :
+
+- **Acomptes clients et paiements intermédiaires** — dépôts et règlements pré-expédition contractuellement convenus mais pas encore comptabilisés en revenus. Leur calendrier réel d'encaissement détermine la liquidité disponible effective.
+- **Commandes fournisseurs engagées** — notamment les commandes à long délai avec conditions de prépaiement ou de règlement post-livraison. Tant que les marchandises ne sont pas expédiées et les factures non émises, ces sorties de trésorerie certaines n'apparaissent dans aucun grand livre.
+
+La conséquence est un **décalage de perception** dangereux : les équipes commerciales et achats génèrent en continu de nouveaux engagements de trésorerie, sans que la finance ne dispose d'un mécanisme pour les consolider en une vision dynamique à court terme. Cela engendre trois modes de défaillance récurrents :
+
+| Mode de défaillance | Manifestation |
+|---|---|
+| **Détection tardive des déséquilibres** | Les manques de trésorerie ne sont découverts qu'à l'échéance d'un paiement — déclenchant une gestion de crise réactive |
+| **Décisions sans données** | L'évaluation des conditions de paiement d'un client ou d'une demande de prépaiement fournisseur repose sur l'intuition, non sur le calcul |
+| **La croissance amplifie le risque** | Plus l'activité croît, plus le volume d'engagements invisibles est important — « bénéficiaire sur le papier, illiquide en pratique » |
+
+---
+
+### Pour Qui
+
+Ce cadre est conçu pour les entreprises en phase de croissance présentant une ou plusieurs des caractéristiques suivantes :
+
+- **Structures de paiement échelonnées** — acomptes clients, paiements du solde avant expédition, ou facturation par jalons de projet
+- **Chaînes d'approvisionnement complexes** — délais d'approvisionnement de plusieurs semaines à plusieurs mois, avec des conditions de paiement mixtes (prépaiement, paiement à la livraison, conditions nettes)
+- **Systèmes déconnectés** — systèmes de gestion des commandes ou des stocks qui n'alimentent pas directement la plateforme comptable
+- **Forte sensibilité au besoin en fonds de roulement** — accès limité aux crédits revolving ; opérations financées principalement par les flux de trésorerie générés en interne
+
+**Secteurs typiques :** marques de biens de consommation, entreprises de négoce et de distribution, fabrication industrielle et sous-traitance, sociétés d'ingénierie et de services professionnels, opérateurs d'e-commerce transfrontalier.
+
+---
+
+### Comment Ça Fonctionne
+
+Le mécanisme central est un **Tableau de Bord de Contrôle des Flux de Trésorerie à Court Terme** — un modèle tableur actualisable manuellement, construit sur trois principes opérationnels :
+
+#### 1. Agrégation de données en entrée unique
+
+Les enregistrements de créances et de dettes du système financier sont fusionnés avec les commandes de vente et d'achat ouvertes issues des systèmes opérationnels. Un jeu de règles de correspondance identifie et exclut automatiquement les commandes d'achat ayant déjà généré des factures, garantissant que chaque mouvement de trésorerie attendu n'est comptabilisé qu'une seule fois.
+
+#### 2. Langage opérationnel → Langage trésorerie
+
+| Signal opérationnel | Événement de trésorerie dérivé |
+|---|---|
+| Date d'expédition estimée + conditions contractuelles | Date de réception client attendue |
+| Date d'arrivée estimée des marchandises + conditions de paiement convenues | Date de paiement fournisseur attendue |
+
+Chaque activité opérationnelle est traduite en une semaine spécifique et un montant de trésorerie précis.
+
+#### 3. Couche d'alertes dynamiques
+
+Un seuil minimal de trésorerie sécurisée est défini par l'entreprise. Le modèle génère automatiquement un graphique de tendance glissant affichant le solde de trésorerie projeté semaine par semaine, mettant en évidence quand le solde est prévu de franchir le seuil et quelles transactions spécifiques créent l'écart.
+
+**Principe de conception :** Le modèle est délibérément transparent et maintenable manuellement. Aucune logique de type « boîte noire ». Tout membre de l'équipe finance ou opérations peut le comprendre, le mettre à jour et lui faire confiance.
+
+---
+
+### Résultats Opérationnels
+
+| Dimension | Avant | Après |
+|---|---|---|
+| **Horizon temporel** | Regard en arrière sur les résultats du mois précédent | Regard en avant sur les 16 prochaines semaines |
+| **Réponse aux manques de trésorerie** | Réactive — découverte à l'échéance d'un paiement | Proactive — visible plusieurs semaines à l'avance |
+| **Décisions commerciales** | Pilotées par l'intuition | Impact quantifié modélisé avant engagement |
+| **Alignement transversal** | Ventes, achats et finance opèrent sur des données différentes | Toutes les fonctions alignées sur la même prévision de trésorerie |
+
+Le résultat n'est pas un rapport ponctuel. C'est une **capacité institutionnelle** — l'aptitude à surveiller en continu la viabilité de trésorerie à court terme de l'entreprise. Cela permet aux entreprises en phase de croissance de se développer rapidement sans les interruptions opérationnelles causées par une visibilité insuffisante des flux de trésorerie.
+
+---
+
+<a name="العربية"></a>
+
+## 🇸🇦 العربية
+
+> تغيير اللغة: [English](#english) · [Français](#français)
+
+<div dir="rtl">
+
+### إطار رؤية التدفقات النقدية
+
+أداة قرار خفيفة وشفافة تحوّل بيانات الطلبات والمدفوعات المتناثرة إلى توقعات نقدية متجددة لـ 16 أسبوعاً — مصمَّمة للشركات في مرحلة النمو المدفوعة بالعمليات التشغيلية.
+
+---
+
+### جدول المحتويات
+
+- [المشكلة](#المشكلة)
+- [الفئات المستهدفة](#الفئات-المستهدفة)
+- [آلية العمل](#آلية-العمل)
+- [النتائج التشغيلية](#النتائج-التشغيلية)
+
+---
+
+### المشكلة
+
+تعتمد معظم الشركات في مرحلة النمو على القوائم المالية الشهرية أو أرصدة البنوك لإدارة السيولة. تحمل هذه المصادر نقطة عمياء هيكلية: فهي لا تُسجّل إلا الالتزامات التي صدرت بها فواتير بالفعل. وتبقى فئتان من الالتزامات النقدية المستقبلية خارج نطاق الرؤية:
+
+- **الدفعات المقدمة من العملاء والمدفوعات المرحلية** — العربون والمدفوعات قبل الشحن المتفق عليها تعاقدياً والتي لم تُعترف بها بعد كإيرادات. يُحدد توقيت تحصيلها الفعلي السيولة المتاحة الحقيقية.
+- **أوامر الشراء الملتزم بها مع الموردين** — لا سيما الطلبات ذات أوقات التسليم الطويلة مع شروط الدفع المسبق أو الدفع بعد التسليم. ما لم تُشحن البضائع وتُصدر الفواتير، لا تظهر هذه المدفوعات المؤكدة في أي سجل محاسبي.
+
+والنتيجة **تأخر إدراك** خطير: تواصل فرق المبيعات والمشتريات توليد التزامات نقدية جديدة، في حين لا تملك الإدارة المالية آلية لتوحيدها في صورة نقدية ديناميكية قصيرة الأمد. يُفضي ذلك إلى ثلاثة أنماط فشل متكررة:
+
+| نمط الفشل | المظهر |
+|---|---|
+| **الاكتشاف المتأخر للاختلالات** | لا تُكتشف الفجوات النقدية إلا عند استحقاق الدفع — مما يُطلق إدارة أزمات تفاعلية |
+| **قرارات بدون بيانات** | يعتمد تقييم شروط سداد العميل أو طلب الدفع المسبق للمورد على الحدس لا الحساب |
+| **النمو يضاعف المخاطر** | كلما نمت الأعمال، كلما اتسع حجم الالتزامات غير المرئية — "رابحون على الورق، عاجزون عن السيولة عملياً" |
+
+---
+
+### الفئات المستهدفة
+
+صُمِّم هذا الإطار للشركات في مرحلة النمو التي تنطبق عليها واحدة أو أكثر من الخصائص التالية:
+
+- **هياكل دفع متدرجة** — عربون من العملاء، ودفعات الرصيد قبل الشحن، أو الفوترة على مراحل المشروع
+- **سلاسل توريد معقدة** — أوقات تسليم تُقاس بالأسابيع أو الأشهر، مع شروط دفع مختلطة (دفع مسبق، دفع عند التسليم، شروط آجلة)
+- **أنظمة غير متصلة** — أنظمة إدارة الطلبات أو المخزون التي لا تُغذّي المنصة المحاسبية مباشرةً
+- **حساسية عالية لرأس المال العامل** — وصول محدود إلى الائتمان المتجدد؛ عمليات يموّلها أساساً التدفق النقدي الداخلي
+
+**القطاعات النموذجية:** شركات السلع الاستهلاكية، تجارة الجملة والتجارة العامة، التصنيع الصناعي والإنتاج بالعقود، شركات الهندسة والخدمات المهنية، مشغّلو التجارة الإلكترونية العابرة للحدود.
+
+---
+
+### آلية العمل
+
+الآلية المحورية هي **لوحة تحكم التدفق النقدي قصير الأمد** — نموذج جداول بيانات قابل للتحديث يدوياً، مبني على ثلاثة مبادئ تشغيلية:
+
+#### 1. تجميع البيانات بإدخال واحد
+
+تُدمج سجلات المديونيات والالتزامات من النظام المالي مع أوامر البيع والشراء المفتوحة من الأنظمة التشغيلية. تُحدد مجموعة من قواعد المطابقة وتستبعد تلقائياً أوامر الشراء التي أصدرت بها فواتير بالفعل، لضمان احتساب كل حركة نقدية متوقعة مرة واحدة فقط.
+
+#### 2. اللغة التشغيلية ← اللغة النقدية
+
+| الإشارة التشغيلية | الحدث النقدي المشتق |
+|---|---|
+| تاريخ الشحن المتوقع + الشروط التعاقدية | تاريخ استلام العميل المتوقع |
+| تاريخ وصول البضاعة المتوقع + شروط الدفع المتفق عليها | تاريخ سداد المورد المتوقع |
+
+تُترجم كل نشاط تشغيلي إلى أسبوع محدد ومبلغ نقدي دقيق.
+
+#### 3. طبقة التنبيه الديناميكي
+
+تُحدد الشركة حداً أدنى للنقد الآمن. يُولّد النموذج تلقائياً مخططاً متجدداً يعرض الرصيد النقدي المتوقع أسبوعاً بأسبوع، مع إبراز موعد الاقتراب من الحد ومعرفة المعاملات بعينها التي تُسبب الفجوة.
+
+**مبدأ التصميم:** النموذج شفاف ومصان يدوياً بتعمد. لا منطق "صندوق أسود". يستطيع أي عضو في فريق المالية أو العمليات فهمه وتحديثه والوثوق به.
+
+---
+
+### النتائج التشغيلية
+
+| البُعد | قبل | بعد |
+|---|---|---|
+| **الأفق الزمني** | نظرة إلى الوراء على نتائج الشهر الماضي | نظرة إلى الأمام على الـ 16 أسبوعاً القادمة |
+| **الاستجابة لفجوات السيولة** | تفاعلية — تُكتشف عند استحقاق الدفع | استباقية — مرئية قبل أسابيع |
+| **القرارات التجارية** | مدفوعة بالحدس | أثر مُحسوب ومُنمذَج قبل الالتزام |
+| **التنسيق بين الوظائف** | المبيعات والمشتريات والمالية تعمل على بيانات مختلفة | جميع الوظائف موجَّهة نحو توقع نقدي موحّد |
+
+المنتج النهائي ليس تقريراً لمرة واحدة. إنه **قدرة مؤسسية** — الأهلية للرصد المستمر لجدوى التدفق النقدي قصير الأمد. يُمكّن ذلك الشركات في مرحلة النمو من التوسع بخطى ثابتة دون الانقطاعات التشغيلية الناجمة عن نقص رؤية التدفق النقدي.
+
+</div>

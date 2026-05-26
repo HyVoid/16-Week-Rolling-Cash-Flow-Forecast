@@ -96,7 +96,7 @@ The output is not a one-time report. It is an **institutional capability** — t
 ---
 ## Purchase
 
-> 🛒 **[Get it on Gumroad →](alexhasgreatestuff.gumroad.com/l/16wcashflow)**
+> 🛒 **[Get it on Gumroad →](https://alexhasgreatestuff.gumroad.com/l/16wcashflow)**
 
 <a name="français"></a>
 ---

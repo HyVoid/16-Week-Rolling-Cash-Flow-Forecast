@@ -94,9 +94,12 @@ A minimum safe cash threshold is defined by the business. The model automaticall
 The output is not a one-time report. It is an **institutional capability** — the ability to continuously monitor the short-term cash viability of the business. This enables growth-stage companies to scale at pace without the operational interruptions caused by insufficient cash-flow visibility.
 
 ---
+## Purchase
+
+> 🛒 **[Get it on Gumroad →](alexhasgreatestuff.gumroad.com/l/16wcashflow)**
 
 <a name="français"></a>
-
+---
 ## 🇫🇷 Français
 
 > Changer de langue : [English](#english) · [العربية](#العربية)

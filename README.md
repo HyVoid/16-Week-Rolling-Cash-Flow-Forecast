@@ -1,4 +1,4 @@
-# Cash Flow Visibility Framework
+# 16-Week-Rolling-Cash-Flow-Forecast
 
 **Language / Langue / اللغة**
 
@@ -12,7 +12,7 @@
 
 > Switch language: [Français](#français) · [العربية](#العربية)
 
-### Cash Flow Visibility Framework
+### 16-Week-Rolling-Cash-Flow-Forecast
 
 A lightweight, transparent decision tool that turns scattered order and payment data into a rolling 16-week cash forecast — built for operations-driven, growth-stage businesses.
 

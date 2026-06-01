@@ -8,7 +8,7 @@
 
 **Designed for consumer goods, wholesale, and manufacturing businesses that need to track committed cash movements, pre-payment obligations, and rolling liquidity before a shortfall occurs.**
 
-[Live Preview](#) · [Purchase Complete Excel](#)
+[Live Preview](https://hyvoid.github.io/rolling-cashflow-forecast/) · [Purchase Complete Excel](https://alexhasgreatestuff.gumroad.com/l/16wcashflow)
 
 </div>
 
@@ -20,7 +20,7 @@ Track open order cash commitments, detect liquidity gaps weeks in advance, and m
 
 <img width="1672" height="941" alt="ChatGPT Image May 25, 2026, 03_53_03 PM" src="https://github.com/user-attachments/assets/d43699bc-4a15-470c-901e-7b372c953861" />
 
-> View the interactive workbook preview: [16-week cash flow demo](#)
+> View the interactive workbook preview: [16-week cash flow demo](https://hyvoid.github.io/rolling-cashflow-forecast/)
 
 ---
 

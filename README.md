@@ -1,450 +1,242 @@
-# 16-Week-Rolling-Cash-Flow-Forecast
+<img width="1672" height="941" alt="ChatGPT Image May 25, 2026, 03_53_03 PM" src="https://github.com/user-attachments/assets/1e78d677-8bdf-4701-a453-71552488cae4" /># Prevent Cash Shortfalls Before They Reach the Payment Date
 
-**Language / Langue / اللغة**
+<div align="center">
 
-[🇬🇧 English](#english) · [🇫🇷 Français](#français) · [🇸🇦 العربية](#العربية)
+![License](https://img.shields.io/badge/license-Apache%202.0-blue)
+![Platform](https://img.shields.io/badge/platform-Microsoft%20Excel-217346)
+![Focus](https://img.shields.io/badge/focus-Operations--Stage%20Business-orange)
 
----
+**Designed for consumer goods, wholesale, and manufacturing businesses that need to track committed cash movements, pre-payment obligations, and rolling liquidity before a shortfall occurs.**
 
-<a name="english"></a>
+[Live Preview](#) · [Purchase Complete Excel](#)
 
-## 🇬🇧 English
+</div>
 
-> Switch language: [Français](#français) · [العربية](#العربية)
-
-### 16-Week-Rolling-Cash-Flow-Forecast
-
-A lightweight, transparent decision tool that turns scattered order and payment data into a rolling 16-week cash forecast — built for operations-driven, growth-stage businesses.
+Track open order cash commitments, detect liquidity gaps weeks in advance, and maintain a single forward-looking source of truth for short-term cash viability.
 
 ---
 
-### Table of Contents
+## Quick Preview
 
-- [Problem](#problem)
-- [Why It Happens](#why-it-happens)
-- [Business Consequence](#business-consequence)
-- [Solution Logic](#solution-logic)
-- [Workbook](#workbook)
-- [Example](#example)
-- [Limitations](#limitations)
-- [About The Method](#about-the-method)
+<img width="1672" height="941" alt="ChatGPT Image May 25, 2026, 03_53_03 PM" src="https://github.com/user-attachments/assets/d43699bc-4a15-470c-901e-7b372c953861" />
+
+> View the interactive workbook preview: [16-week cash flow demo](#)
 
 ---
 
-### Problem
+## Why This Exists
 
-Most growing businesses manage cash using monthly financial statements or live bank balances. Both sources share the same structural flaw: they only reflect what has already been invoiced. Neither surfaces what is coming.
+Most cash shortfalls in growing businesses are not caused by unprofitable operations.
 
-The result is a **perception lag** — a gap between the cash commitments the business has already generated and the cash picture the finance team is actually working from.
+They usually happen because customer pre-payments, milestone receipts, committed purchase orders, and staggered payment terms are difficult to consolidate manually — and standard accounting records are structurally blind to them until an invoice is raised.
+
+The risk is simple:
+
+```
+Payment due date arrives
+-> Manual bank balance check
+-> Prior commitments missed
+-> Shortfall discovered at the wire
+```
+
+This workbook is designed to change the workflow:
+
+```
+New order or supplier PO considered
+-> Commitment entered once
+-> 16-week cash timeline updated automatically
+-> Liquidity gap flagged before it becomes a crisis
+```
+
+The commercial problem is not only cash management. It is operational visibility. Finance teams and operators need to know whether the business can cover its next obligation — before agreeing to payment terms.
 
 ---
 
-### Why It Happens
+## Three Cash Traps That Catch Growing Businesses
 
-Two categories of future cash commitment are structurally invisible to standard financial reporting:
+### Trap 1 — Monthly statements misread as a liquidity picture
 
-- **Customer pre-payments and milestone receipts** — deposits and pre-shipment payments that are contractually agreed but not yet invoiced or recognized as revenue. Their actual inflow timing determines real available liquidity.
-- **Committed supplier purchase orders** — especially long-lead-time orders with prepayment or post-delivery payment terms. Until goods ship and invoices are raised, these certain cash outflows do not appear on any ledger.
+Standard AR/AP reports reflect what has been invoiced. They do not reflect what has been committed.
 
-Sales and procurement teams continuously generate new obligations. Finance has no mechanism to consolidate them in real time. The gap between operational commitment and financial recognition is where liquidity crises begin.
+A business holding $80,000 in confirmed customer deposits and $60,000 in contracted supplier prepayments due next month shows neither on its income statement until goods move and invoices are raised. The finance team sees a healthy bank balance today. The coming shortfall is invisible.
+
+Finance teams who manage cash from monthly statements routinely work from a picture that is structurally four to six weeks behind reality. The mental model feels complete; the data is not.
+
+### Trap 2 — Pre-payments and purchase orders tracked in separate systems
+
+When the same business takes a 30% customer deposit on Monday and issues a 40% supplier prepayment on Thursday, both transactions affect the same cash pool — but they typically live in different systems, different spreadsheets, or different teams.
+
+Operations that maintain separate tracking for sales commitments and procurement obligations — a natural workflow division — systematically fail to see the net cash position. The regulation does not recognise that operational boundary. Neither does the bank account.
+
+### Trap 3 — Gaps discovered at the payment due date
+
+Manual verification typically happens when a payment falls due or when someone checks the bank account. By the time a gap is identified, the window for action has closed. Reactive responses — emergency credit draws, supplier renegotiations, delayed payroll — carry real cost and real relationship damage.
+
+Pre-gap interception requires that liquidity risk be visible weeks before the obligation matures — which requires all open commitments to be current and all timing calculations to run automatically at the point of planning.
+
+The gap is usually hidden in the relationship between:
+
+- opening cash balance
+- deposit and pre-payment receipt timing
+- customer balance receipt dates
+- supplier payment due dates
+- contract payment terms
+- order volume and growth rate
+
+That is why manual reconciliation often surfaces the issue late, or misses it entirely.
 
 ---
 
-### Business Consequence
+## Who This Tool Is For
 
-Three failure modes emerge repeatedly:
-
-| Failure Mode | Manifestation |
+| User | Practical Use Case |
 |---|---|
-| **Late discovery of mismatches** | Cash shortfalls surface only when a payment falls due — triggering reactive crisis management |
-| **Decisions made without data** | Evaluating a customer's payment terms or a supplier's prepayment demand relies on intuition, not calculation |
-| **Growth amplifies risk** | The faster the business grows, the larger the volume of invisible commitments — profitable on paper, illiquid in practice |
+| Finance managers | Identify liquidity gaps 6–16 weeks out before they become crises |
+| Operations managers | Understand the cash impact of a new order or supplier PO before committing |
+| Founders and CEOs | Maintain a single forward view of cash viability as the business scales |
+| Procurement teams | Evaluate prepayment demands against actual available liquidity |
+| External accountants | Provide short-term cash advisory without building a model from scratch |
+
+Best suited for businesses running mixed customer pre-payment and supplier prepayment structures, where treasury software is cost-prohibitive but manual approaches no longer scale.
 
 ---
 
-### Solution Logic
+## What The Workbook Does
 
-The core mechanism is a **Short-Term Cash Flow Control Board** — a manually refreshable spreadsheet built on three operating principles:
+### Open Commitment Logging
+A single data entry point for all AR, AP, open sales orders, and open purchase orders. Teams enter basic commitment and timing information once; cash timeline calculations run automatically in the background.
 
-#### 1. Single-entry data aggregation
+### 16-Week Cash Timeline
+Automatic mapping of every open commitment to a specific week and cash direction. The rolling window updates each week as new entries are added and prior weeks close out.
 
-Financial system A/R and A/P records are merged with open sales orders and purchase orders from operational systems. A matching ruleset automatically identifies and excludes purchase orders that have already generated invoices, ensuring each expected cash movement is counted exactly once.
+### Pre-Decision Liquidity Status
+Each week's projected cash balance is visible before a new order is accepted or a new supplier term is agreed. No manual cross-referencing. No day-of-payment discovery.
 
-#### 2. Operational language → Cash language
+### Deduplication Logic
+Purchase orders already converted to invoices are automatically identified and excluded — ensuring each expected cash movement is counted exactly once and the open-commitment view stays clean.
 
-| Operational signal | Derived cash event |
+### Threshold Alert Layer
+A minimum safe cash balance is configured by the business. The model highlights which weeks breach the threshold and which specific transactions drive each gap — giving teams a transaction-level diagnostic, not just a red flag.
+
+### Audit-Ready Structure
+Every entry is structured and traceable from day one. The full 16-week commitment record can be filtered by direction, counterparty, or week and reviewed without post-processing.
+
+---
+
+## Example Scenario
+
+**Business profile:** Consumer goods importer. Mixed customer pre-payment terms and supplier prepayment requirements. Single finance function.
+
+**The problem:** Each week, the finance manager manually cross-references open sales orders, outstanding customer deposits, pending supplier invoices, and expected goods arrival dates to estimate available cash. Customer commitments are tracked in the CRM. Supplier commitments are tracked in the procurement sheet. Reconciling both into a net cash position takes two hours and produces a view that is already a week stale.
+
+Over one quarter of operations, two liquidity gaps were identified — both within 48 hours of the payment due date.
+
+| | Before | After |
+|---|---|---|
+| Commitment structure | Two separate sheets, one per team | Single unified workbook |
+| Weekly cash check time | ~2 hours across all open positions | Under 5 minutes per week |
+| Pre-payment consolidation | Manual cross-reference | Automatic across AR, AP, sales orders, POs |
+| Gap discovery | At payment due date; reactive response | 6–8 weeks out; planned response |
+
+**The specific inflection point this tool surfaces:**
+
+A $100,000 customer order carries a 70% balance due before shipment, estimated week 6. The related supplier PO carries a 60% balance due on goods arrival, estimated week 5. Opening cash balance: $10,000.
+
+Week 5 net position: $10,000 − $30,000 = **−$20,000.** Gap exists.
+Week 6 net position: −$20,000 + $70,000 = **$50,000.** Resolved.
+
+A monthly view shows the month net-positive. The weekly window shows a real $20,000 shortfall in week 5 that requires action before it arrives — not after.
+
+---
+
+## Why Short-Term Cash Forecasting Works This Way
+
+Rolling cash flow forecasting — direct method, short forward horizon — is a standard treasury discipline maintained by most large corporations as a core operational function. In larger businesses, it is managed by dedicated treasury functions using specialist software.
+
+The direct method works by mapping actual expected cash movements — not accounting entries — to specific dates. Every committed inflow and outflow is translated to a week, a direction, and an amount. The running balance at any point reflects what the business actually expects to hold, not what its accounting records show.
+
+This approach is structurally distinct from:
+
+- **P&L-based cash estimation** — conflates profitability with liquidity; a business can be profitable and illiquid simultaneously
+- **Bank balance management** — only reflects what has already moved; committed future outflows are invisible
+- **Monthly AR/AP reporting** — excludes pre-invoice commitments entirely; systematically blind to the operational layer
+
+The reason most growing businesses lack this view is not complexity. It is the absence of a structured mechanism to consolidate operational commitments — which live across sales, procurement, and finance — into a single cash timeline.
+
+Useful reference context:
+- [AICPA: Direct Method Cash Flow Forecasting](https://www.aicpa.org)
+- [AFP: Treasury Management Fundamentals](https://www.afponline.org)
+
+---
+
+## How The 16-Week Window Works
+
+The 16-week window slides forward each week, not each month. Every new entry is mapped to a specific future week based on estimated operational dates and contracted payment terms.
+
+| Operational input | Derived cash event |
 |---|---|
-| Estimated shipment date + contract terms | Expected customer receipt date |
-| Estimated goods arrival date + agreed payment terms | Expected supplier payment date |
+| Estimated shipment date + "payment before shipment" term | Customer receipt in the week prior to estimated shipment |
+| Estimated goods arrival date + "payment on delivery" term | Supplier outflow in the estimated arrival week |
+| Invoice date + "Net 30" term | Customer receipt approximately 4 weeks forward |
 
-Every operational activity is translated into a specific week and a specific cash amount.
+**The trap in numbers:**
 
-#### 3. Dynamic alert layer
+A business running 10 open orders simultaneously — each with its own deposit structure, balance payment timing, and supplier prepayment schedule — carries upwards of 30 interacting cash events at any given moment. Each event depends on a current operational estimate to remain accurate. Manual consolidation introduces error at each step.
 
-A minimum safe cash threshold is defined by the business. The model generates a rolling trend chart showing projected cash balance week by week, highlighting when the balance is forecast to breach the threshold and which specific transactions drive the gap.
+The monthly reset mental model approves positions that the rolling weekly window does not. The calculation is structural, not judgmental. Automation eliminates the error class entirely.
 
----
-
-### Workbook
-
-The workbook is structured across four functional layers:
-
-| Layer | Contents |
-|---|---|
-| **Data input** | A single entry table capturing A/R, A/P, open sales orders, and open purchase orders — the only layer requiring regular updates |
-| **Matching logic** | Deduplication rules that identify and exclude purchase orders already converted to invoices, preventing double-counting |
-| **16-week calendar** | Automated week-by-week cash timeline, populated directly from input data and contract payment terms |
-| **Dashboard** | Rolling balance trend chart overlaid with the minimum threshold line, with transaction-level gap identification |
-
-No black-box formulas. The logic at each layer is fully readable and editable by any team member with standard spreadsheet skills.
+**Why forecast reliability decays at the outer horizon:** The near horizon of weeks 1–8 is populated by commitments already in motion — shipment dates and payment terms that are confirmed or nearly so. Weeks 9–16 depend on operational estimates that may shift materially as orders are placed or delayed. The model is most reliable within the 6–8 week near-horizon. The outer window is directionally useful for planning; it is not a guarantee.
 
 ---
 
-### Example
+## Workbook Logic
 
-A consumer goods importer holds the following open positions at the start of the current week:
+The workbook is organized around a practical cash planning workflow:
 
-**Customer order:** $100,000 total. 30% deposit ($30,000) received at order placement. 70% balance ($70,000) contractually due before shipment — estimated week 6.
+1. Enter all open AR, AP, sales orders, and purchase orders with estimated dates and payment terms.
+2. Apply deduplication to identify and exclude purchase orders already converted to invoices.
+3. Map each open commitment to its expected cash week and direction.
+4. Calculate the running 16-week balance forward from the opening cash position.
+5. Compare each week's projected balance against the minimum safe threshold.
+6. Flag gap weeks and identify the specific transactions driving each gap.
+7. Preserve the commitment record for weekly rolling review and team communication.
 
-**Supplier PO:** $50,000 total. 40% prepayment ($20,000) paid at PO placement. 60% balance ($30,000) due on goods arrival at importer warehouse — estimated week 5.
-
-**Opening cash balance: $10,000.**
-
-The workbook automatically maps these positions to the following cash events:
-
-| Week | Event | Cash In | Cash Out | Running Balance |
-|---|---|---|---|---|
-| 0 | Opening balance | — | — | $10,000 |
-| 5 | Supplier balance due on goods arrival | — | $30,000 | **−$20,000** |
-| 6 | Customer balance received before shipment | $70,000 | — | $50,000 |
-
-Week 5 is the critical inflection point. The supplier balance falls due one week before the customer balance is received. The $10,000 opening balance is insufficient to cover the $30,000 outflow. The forecast flags this gap in week 5 — not on the day the supplier payment is due.
-
----
-
-### Limitations
-
-- **Input dependency.** Forecast accuracy is bounded by the quality of data entered. Estimated shipment dates and payment terms require active maintenance. Stale inputs produce a false sense of visibility.
-- **Manual refresh required.** The model does not update automatically. Without consistent weekly maintenance, the rolling window degrades and gaps become invisible again.
-- **Not a system of record.** This is a decision-support layer. It does not replace accounting software, an ERP, or auditable financial records.
-- **Deterministic, not probabilistic.** Each cash event is modelled as a fixed date and a fixed amount. The model does not natively weight scenarios or model payment delay risk.
-- **Outer-horizon reliability.** Forecasts for weeks 10–16 depend on operational estimates that may shift materially. The model is most reliable within the 6–8 week near-horizon.
-- **Multi-currency not modelled.** Businesses with significant FX exposure will need to apply exchange rate assumptions as a manual overlay.
-
----
-
-### About The Method
-
-Rolling cash flow forecasting — direct method, short forward horizon — is a standard treasury discipline. In larger businesses, it is maintained by dedicated treasury functions using specialist software.
-
-This framework adapts that discipline for the structural gap in the market: businesses operationally complex enough to generate significant invisible cash commitments but too early-stage to justify treasury software or a dedicated cash management function.
-
-The 16-week window reflects typical supply chain lead times in consumer goods, wholesale trading, and manufacturing. It is long enough to capture the full commitment-to-receipt cycle for most orders, and short enough to remain operationally grounded.
-
-**Designed for:**
-- Consumer goods brands and wholesale/trading businesses
-- Industrial manufacturing and contract production operations
-- Engineering and professional services firms with milestone billing
-- Cross-border e-commerce operators with complex procurement cycles
-
-The output is not a one-time report. It is an **institutional capability** — the ongoing ability to monitor short-term cash viability as the business scales.
+The workbook is intended to be a decision-support and planning tool. It does not replace accounting software, auditable financial records, or professional advice for complex financing decisions.
 
 ---
 
 ## Purchase
 
-> 🛒 **[Get it on Gumroad →](https://alexhasgreatestuff.gumroad.com/l/16wcashflow)**
+Use the complete Excel workbook here:
 
-<a name="français"></a>
-
----
-
-## 🇫🇷 Français
-
-> Changer de langue : [English](#english) · [العربية](#العربية)
-
-### Cadre de Visibilité des Flux de Trésorerie
-
-Un outil de décision léger et transparent qui transforme les données de commandes et de paiements dispersées en une prévision de trésorerie glissante sur 16 semaines — conçu pour les entreprises en phase de croissance pilotées par les opérations.
+[Purchase the complete Excel workbook →](https://alexhasgreatestuff.gumroad.com/l/16wcashflow)
 
 ---
 
-### Table des matières
+## Limitations
 
-- [Problème](#problème)
-- [Pourquoi cela se produit](#pourquoi-cela-se-produit)
-- [Conséquences opérationnelles](#conséquences-opérationnelles)
-- [Logique de la solution](#logique-de-la-solution)
-- [Le classeur](#le-classeur)
-- [Exemple](#exemple)
-- [Limites](#limites)
-- [À propos de la méthode](#à-propos-de-la-méthode)
-
----
-
-### Problème
-
-La plupart des entreprises en croissance gèrent leur trésorerie à partir des états financiers mensuels ou des soldes bancaires en temps réel. Ces deux sources partagent le même défaut structurel : elles ne reflètent que les obligations déjà facturées. Aucune ne fait apparaître ce qui est à venir.
-
-Le résultat est un **décalage de perception** — l'écart entre les engagements de trésorerie que l'entreprise a déjà générés et l'image financière sur laquelle travaille réellement l'équipe.
+- **Input dependency** — forecast accuracy is bounded by the quality of data entered; stale shipment estimates or missing commitments produce a false sense of visibility without warning
+- **Manual refresh required** — the model does not update automatically; without consistent weekly maintenance, the rolling window degrades and gaps become invisible again
+- **Not a system of record** — this is a decision-support layer; it does not replace accounting software, an ERP, or auditable financial records
+- **Deterministic, not probabilistic** — each cash event is modelled as a fixed date and fixed amount; payment delay risk, FX movement, and order cancellation scenarios require manual overlay
+- **Outer-horizon reliability** — weeks 10–16 depend on operational estimates that may shift materially; the model is most reliable within the 6–8 week near-horizon
+- **Multi-currency not modelled** — businesses with significant FX exposure will need to apply exchange rate assumptions as a manual overlay
+- **Scale context** — designed for businesses managing 5–50 simultaneous open positions; beyond this range, the manual entry model requires structural adaptation
 
 ---
 
-### Pourquoi cela se produit
+## About This Project
 
-Deux catégories d'engagements de trésorerie futurs sont structurellement invisibles pour le reporting financier standard :
+This workbook is part of a broader effort to translate complex operational and financial requirements into lightweight tools that small and medium-sized organizations can actually use.
 
-- **Acomptes clients et paiements intermédiaires** — dépôts et règlements pré-expédition contractuellement convenus mais non encore facturés ni comptabilisés en revenus. Leur calendrier de réception réel détermine la liquidité disponible effective.
-- **Commandes fournisseurs engagées** — notamment les commandes à longs délais d'approvisionnement avec conditions de prépaiement ou de règlement post-livraison. Tant que les marchandises ne sont pas expédiées et les factures non émises, ces sorties certaines n'apparaissent dans aucun grand livre.
+No ERP. No treasury software subscription. No custom development project.
 
-Les équipes commerciales et achats génèrent en continu de nouveaux engagements. La finance ne dispose d'aucun mécanisme pour les consolider en temps réel. L'écart entre engagement opérationnel et comptabilisation financière est là où naissent les crises de liquidité.
+Just clear business logic, structured data, and repeatable decision support — delivered in software your team already has.
 
----
-
-### Conséquences opérationnelles
-
-Trois modes de défaillance apparaissent de façon récurrente :
-
-| Mode de défaillance | Manifestation |
-|---|---|
-| **Détection tardive des déséquilibres** | Les manques de trésorerie ne sont découverts qu'à l'échéance d'un paiement — déclenchant une gestion de crise réactive |
-| **Décisions sans données** | L'évaluation des conditions de paiement d'un client ou d'une demande de prépaiement fournisseur repose sur l'intuition, non sur le calcul |
-| **La croissance amplifie le risque** | Plus l'activité croît, plus le volume d'engagements invisibles est important — bénéficiaire sur le papier, illiquide en pratique |
+If your operation involves cash management, procurement cycles, or customer billing structures that currently live in someone's head or a disconnected spreadsheet, [see what else is available →](https://alexhasgreatestuff.gumroad.com)
 
 ---
 
-### Logique de la solution
+## License
 
-Le mécanisme central est un **Tableau de Bord de Contrôle des Flux de Trésorerie à Court Terme** — un modèle tableur actualisable manuellement, construit sur trois principes opérationnels :
-
-#### 1. Agrégation de données en entrée unique
-
-Les enregistrements de créances et de dettes du système financier sont fusionnés avec les commandes de vente et d'achat ouvertes issues des systèmes opérationnels. Un jeu de règles de correspondance identifie et exclut automatiquement les commandes d'achat ayant déjà généré des factures, garantissant que chaque mouvement de trésorerie attendu n'est comptabilisé qu'une seule fois.
-
-#### 2. Langage opérationnel → Langage trésorerie
-
-| Signal opérationnel | Événement de trésorerie dérivé |
-|---|---|
-| Date d'expédition estimée + conditions contractuelles | Date de réception client attendue |
-| Date d'arrivée estimée des marchandises + conditions de paiement convenues | Date de paiement fournisseur attendue |
-
-Chaque activité opérationnelle est traduite en une semaine spécifique et un montant de trésorerie précis.
-
-#### 3. Couche d'alertes dynamiques
-
-Un seuil minimal de trésorerie sécurisée est défini par l'entreprise. Le modèle génère automatiquement un graphique de tendance glissant affichant le solde de trésorerie projeté semaine par semaine, mettant en évidence quand le solde est prévu de franchir le seuil et quelles transactions spécifiques créent l'écart.
-
----
-
-### Le classeur
-
-Le classeur est structuré en quatre couches fonctionnelles :
-
-| Couche | Contenu |
-|---|---|
-| **Saisie des données** | Un tableau de saisie unique capturant créances, dettes, commandes de vente et commandes d'achat ouvertes — la seule couche nécessitant des mises à jour régulières |
-| **Logique de correspondance** | Règles de déduplication qui identifient et excluent les bons de commande déjà convertis en factures, évitant les doubles comptages |
-| **Calendrier 16 semaines** | Chronologie de trésorerie automatisée semaine par semaine, alimentée directement par les données de saisie et les conditions de paiement contractuelles |
-| **Tableau de bord** | Graphique de tendance du solde glissant superposé à la ligne de seuil minimum, avec identification des écarts au niveau des transactions |
-
-Aucune formule en boîte noire. La logique de chaque couche est entièrement lisible et modifiable par tout membre de l'équipe disposant de compétences tableur standard.
-
----
-
-### Exemple
-
-Un importateur de biens de consommation détient les positions ouvertes suivantes au début de la semaine en cours :
-
-**Commande client :** 100 000 $ au total. Acompte de 30 % (30 000 $) reçu à la passation de commande. Solde de 70 % (70 000 $) contractuellement dû avant expédition — estimé à la semaine 6.
-
-**Bon de commande fournisseur :** 50 000 $ au total. Prépaiement de 40 % (20 000 $) effectué à la passation du bon de commande. Solde de 60 % (30 000 $) dû à l'arrivée des marchandises à l'entrepôt — estimé à la semaine 5.
-
-**Solde de trésorerie d'ouverture : 10 000 $.**
-
-Le classeur mappe automatiquement ces positions sur les événements de trésorerie suivants :
-
-| Semaine | Événement | Entrée | Sortie | Solde glissant |
-|---|---|---|---|---|
-| 0 | Solde d'ouverture | — | — | 10 000 $ |
-| 5 | Solde fournisseur dû à l'arrivée des marchandises | — | 30 000 $ | **−20 000 $** |
-| 6 | Solde client reçu avant expédition | 70 000 $ | — | 50 000 $ |
-
-La semaine 5 est le point d'inflexion critique. Le solde fournisseur est dû une semaine avant la réception du solde client. Le solde d'ouverture de 10 000 $ est insuffisant pour couvrir la sortie de 30 000 $. La prévision signale cet écart en semaine 5 — et non le jour de l'échéance fournisseur.
-
----
-
-### Limites
-
-- **Dépendance aux données.** La précision de la prévision est limitée par la qualité des données saisies. Les dates d'expédition estimées et les conditions de paiement doivent être activement maintenues. Des données obsolètes créent une fausse sensation de visibilité.
-- **Actualisation manuelle requise.** Le modèle ne se met pas à jour automatiquement. Sans une maintenance hebdomadaire rigoureuse, la fenêtre glissante se dégrade et les écarts redeviennent invisibles.
-- **Pas un système d'enregistrement.** C'est une couche d'aide à la décision. Il ne remplace pas le logiciel de comptabilité, l'ERP ni les états financiers auditables.
-- **Déterministe, non probabiliste.** Chaque événement de trésorerie est modélisé comme une date et un montant fixes. Le modèle ne pondère pas nativement les scénarios ni ne modélise le risque de retard de paiement.
-- **Fiabilité en bout de fenêtre.** Les prévisions des semaines 10 à 16 dépendent d'estimations opérationnelles susceptibles d'évoluer sensiblement. Le modèle est plus fiable sur l'horizon proche de 6 à 8 semaines.
-- **Multidevise non modélisé.** Les entreprises exposées au risque de change devront appliquer des hypothèses de taux de change manuellement en couche additionnelle.
-
----
-
-### À propos de la méthode
-
-La prévision des flux de trésorerie à roulement — méthode directe sur un horizon court orienté vers l'avenir — est une discipline trésorerie établie. Dans les grandes entreprises, elle est assurée par des fonctions trésorerie dédiées avec des logiciels spécialisés.
-
-Ce cadre adapte cette discipline au segment structurellement non couvert : les entreprises suffisamment complexes sur le plan opérationnel pour générer des engagements de trésorerie invisibles significatifs, mais trop tôt dans leur développement pour justifier un logiciel de trésorerie ou une fonction de gestion de liquidité dédiée.
-
-La fenêtre de 16 semaines reflète les délais d'approvisionnement typiques dans les biens de consommation, le négoce et la fabrication. Elle est suffisamment longue pour couvrir le cycle complet engagement-réception pour la plupart des commandes, et suffisamment courte pour rester ancrée dans la réalité opérationnelle.
-
-**Conçu pour :**
-- Les marques de biens de consommation et les entreprises de négoce et distribution
-- La fabrication industrielle et la sous-traitance
-- Les cabinets d'ingénierie et de services professionnels à facturation par jalons
-- Les opérateurs d'e-commerce transfrontalier avec des cycles d'approvisionnement complexes
-
-Le livrable n'est pas un rapport ponctuel. C'est une **capacité institutionnelle** — l'aptitude continue à surveiller la viabilité de trésorerie à court terme à mesure que l'entreprise se développe.
-
----
-
-<a name="العربية"></a>
-
-## 🇸🇦 العربية
-
-> تغيير اللغة: [English](#english) · [Français](#français)
-
-<div dir="rtl">
-
-### إطار رؤية التدفقات النقدية
-
-أداة قرار خفيفة وشفافة تحوّل بيانات الطلبات والمدفوعات المتناثرة إلى توقعات نقدية متجددة لـ 16 أسبوعاً — مصمَّمة للشركات في مرحلة النمو المدفوعة بالعمليات التشغيلية.
-
----
-
-### جدول المحتويات
-
-- [المشكلة](#المشكلة)
-- [لماذا يحدث ذلك](#لماذا-يحدث-ذلك)
-- [التداعيات على الأعمال](#التداعيات-على-الأعمال)
-- [منطق الحل](#منطق-الحل)
-- [المصنف](#المصنف)
-- [مثال تطبيقي](#مثال-تطبيقي)
-- [القيود](#القيود)
-- [حول المنهجية](#حول-المنهجية)
-
----
-
-### المشكلة
-
-تعتمد معظم الشركات في مرحلة النمو على القوائم المالية الشهرية أو أرصدة البنوك الفورية لإدارة السيولة. كلا المصدرين يحملان نفس العيب الهيكلي: لا يعكسان إلا ما جرى إصدار فواتير به. ولا يُظهر أيٌّ منهما ما هو قادم.
-
-النتيجة هي **تأخر إدراك** — الفجوة بين الالتزامات النقدية التي ولّدتها الشركة بالفعل وصورة السيولة التي تعمل منها الإدارة المالية فعلياً.
-
----
-
-### لماذا يحدث ذلك
-
-فئتان من الالتزامات النقدية المستقبلية غائبتان هيكلياً عن التقارير المالية المعتادة:
-
-- **الدفعات المقدمة من العملاء والمدفوعات المرحلية** — العربون والمدفوعات قبل الشحن المتفق عليها تعاقدياً والتي لم تُفوتَر بعد ولم تُعترف بها إيراداً. يُحدد توقيت استلامها الفعلي السيولة المتاحة الحقيقية.
-- **أوامر الشراء الملتزم بها مع الموردين** — لا سيما الطلبات ذات أوقات التسليم الطويلة مع شروط الدفع المسبق أو الدفع بعد التسليم. ما لم تُشحن البضائع وتُصدر الفواتير، لا تظهر هذه المدفوعات المؤكدة في أي سجل محاسبي.
-
-تواصل فرق المبيعات والمشتريات توليد التزامات جديدة باستمرار. لا تملك الإدارة المالية آلية لتوحيدها في الوقت الفعلي. الفجوة بين الالتزام التشغيلي والاعتراف المالي هي حيث تبدأ أزمات السيولة.
-
----
-
-### التداعيات على الأعمال
-
-ثلاثة أنماط فشل تتكرر باستمرار:
-
-| نمط الفشل | المظهر |
-|---|---|
-| **الاكتشاف المتأخر للاختلالات** | لا تُكتشف الفجوات النقدية إلا عند استحقاق الدفع — مما يُطلق إدارة أزمات تفاعلية |
-| **قرارات بدون بيانات** | يعتمد تقييم شروط سداد العميل أو طلب الدفع المسبق للمورد على الحدس لا الحساب |
-| **النمو يضاعف المخاطر** | كلما نمت الأعمال، كلما اتسع حجم الالتزامات غير المرئية — رابحون على الورق، عاجزون عن السيولة عملياً |
-
----
-
-### منطق الحل
-
-الآلية المحورية هي **لوحة تحكم التدفق النقدي قصير الأمد** — نموذج جداول بيانات قابل للتحديث يدوياً، مبني على ثلاثة مبادئ تشغيلية:
-
-#### 1. تجميع البيانات بإدخال واحد
-
-تُدمج سجلات المديونيات والالتزامات من النظام المالي مع أوامر البيع والشراء المفتوحة من الأنظمة التشغيلية. تُحدد مجموعة من قواعد المطابقة وتستبعد تلقائياً أوامر الشراء التي صدرت بها فواتير بالفعل، لضمان احتساب كل حركة نقدية متوقعة مرة واحدة فقط.
-
-#### 2. اللغة التشغيلية → اللغة النقدية
-
-| الإشارة التشغيلية | الحدث النقدي المشتق |
-|---|---|
-| تاريخ الشحن المتوقع + الشروط التعاقدية | تاريخ استلام العميل المتوقع |
-| تاريخ وصول البضاعة المتوقع + شروط الدفع المتفق عليها | تاريخ سداد المورد المتوقع |
-
-تُترجَم كل نشاط تشغيلي إلى أسبوع محدد ومبلغ نقدي دقيق.
-
-#### 3. طبقة التنبيه الديناميكي
-
-تُحدد الشركة حداً أدنى للنقد الآمن. يُولّد النموذج تلقائياً مخططاً متجدداً يعرض الرصيد النقدي المتوقع أسبوعاً بأسبوع، مع إبراز موعد اقتراب الرصيد من الحد ومعرفة المعاملات بعينها التي تُسبب الفجوة.
-
----
-
-### المصنف
-
-يتكون المصنف من أربع طبقات وظيفية:
-
-| الطبقة | المحتوى |
-|---|---|
-| **إدخال البيانات** | جدول إدخال موحّد يستوعب المديونيات والالتزامات وأوامر البيع والشراء المفتوحة — الطبقة الوحيدة التي تتطلب تحديثات منتظمة |
-| **منطق المطابقة** | قواعد إلغاء التكرار التي تُحدد وتستبعد أوامر الشراء المحوَّلة بالفعل إلى فواتير، لتجنب الاحتساب المزدوج |
-| **التقويم الستة عشر أسبوعاً** | جدول زمني آلي للتدفق النقدي أسبوعاً بأسبوع، يُعبَّأ مباشرةً من بيانات الإدخال وشروط الدفع التعاقدية |
-| **لوحة التحكم** | مخطط اتجاه الرصيد المتجدد مُركَّباً على خط الحد الأدنى، مع تحديد الفجوات على مستوى المعاملات |
-
-لا معادلات "صندوق أسود". منطق كل طبقة قابل للقراءة والتعديل من أي عضو في الفريق يمتلك مهارات جداول بيانات أساسية.
-
----
-
-### مثال تطبيقي
-
-يمتلك مستورد بضائع استهلاكية المراكز المفتوحة التالية في بداية الأسبوع الحالي:
-
-**طلب العميل:** 100,000 دولار إجمالاً. عربون بنسبة 30% (30,000 دولار) مستلَم عند تقديم الطلب. رصيد 70% (70,000 دولار) مستحق تعاقدياً قبل الشحن — المقدَّر في الأسبوع السادس.
-
-**أمر شراء المورد:** 50,000 دولار إجمالاً. دفعة مسبقة بنسبة 40% (20,000 دولار) مدفوعة عند إصدار أمر الشراء. رصيد 60% (30,000 دولار) مستحق عند وصول البضائع إلى المستودع — المقدَّر في الأسبوع الخامس.
-
-**الرصيد النقدي الافتتاحي: 10,000 دولار.**
-
-يقوم المصنف تلقائياً بترتيب هذه المراكز على الأحداث النقدية التالية:
-
-| الأسبوع | الحدث | وارد | صادر | الرصيد المتراكم |
-|---|---|---|---|---|
-| 0 | الرصيد الافتتاحي | — | — | 10,000 دولار |
-| 5 | رصيد المورد مستحق عند وصول البضائع | — | 30,000 دولار | **−20,000 دولار** |
-| 6 | رصيد العميل مستلَم قبل الشحن | 70,000 دولار | — | 50,000 دولار |
-
-الأسبوع الخامس هو نقطة التحوّل الحرجة. رصيد المورد يستحق بأسبوع واحد قبل استلام رصيد العميل. الرصيد الافتتاحي البالغ 10,000 دولار غير كافٍ لتغطية الخروج النقدي البالغ 30,000 دولار. يُشير التوقع إلى هذه الفجوة في الأسبوع الخامس — لا في يوم استحقاق دفعة المورد.
-
----
-
-### القيود
-
-- **الاعتماد على جودة المدخلات.** دقة التوقع مقيَّدة بجودة البيانات المُدخَلة. تواريخ الشحن المقدَّرة وشروط الدفع تستوجب صيانة فاعلة. المدخلات القديمة تُولّد إحساساً زائفاً بالرؤية.
-- **التحديث اليدوي إلزامي.** النموذج لا يتحدث تلقائياً. بدون صيانة أسبوعية منتظمة، تتدهور النافذة المتجددة وتعود الفجوات إلى الاختفاء.
-- **ليس نظام سجلات.** هذه طبقة دعم قرار. لا تحلّ محل برنامج المحاسبة أو نظام تخطيط الموارد أو السجلات المالية الخاضعة للتدقيق.
-- **حتمي لا احتمالي.** كل حدث نقدي يُنمذَج كتاريخ ومبلغ ثابتين. النموذج لا يُرجّح السيناريوهات بطبيعته ولا يُنمذج مخاطر تأخر الدفع.
-- **موثوقية محدودة عند حافة النافذة.** توقعات الأسابيع 10–16 تعتمد على تقديرات تشغيلية عرضة للتغير الجوهري. النموذج أكثر موثوقية ضمن الأفق القريب من 6 إلى 8 أسابيع.
-- **التعدد العملي غير مُنمذَج.** الشركات ذات التعرض الجوهري لمخاطر الصرف الأجنبي ستحتاج إلى تطبيق افتراضات أسعار الصرف يدوياً كطبقة إضافية.
-
----
-
-### حول المنهجية
-
-توقعات التدفق النقدي المتجدد — الطريقة المباشرة على أفق قصير موجَّه للمستقبل — تخصص خزيني راسخ. في الشركات الكبرى، تُديره وظائف خزينة متخصصة بأدوات برمجية متطورة.
-
-يُكيِّف هذا الإطار تلك المنهجية لسد الفجوة الهيكلية في السوق: الشركات المعقدة تشغيلياً بما يكفي لتوليد التزامات نقدية غير مرئية ذات حجم كبير، لكنها مبكرة جداً في مسار نموها لتبرير برنامج خزينة أو وظيفة إدارة سيولة متخصصة.
-
-تعكس نافذة الستة عشر أسبوعاً أوقات التسليم النموذجية في سلاسل التوريد ضمن قطاعات السلع الاستهلاكية والتجارة والتصنيع. هي طويلة بما يكفي لاستيعاب الدورة الكاملة من الالتزام إلى الاستلام لمعظم الطلبات، وقصيرة بما يكفي للبقاء مترسِّخة في الواقع التشغيلي.
-
-**مصمَّم لـ:**
-- شركات السلع الاستهلاكية وأعمال الجملة والتوزيع
-- التصنيع الصناعي والإنتاج بالعقود
-- شركات الهندسة والخدمات المهنية ذات الفوترة بالمراحل
-- مشغّلي التجارة الإلكترونية العابرة للحدود مع دورات توريد معقدة
-
-المنتج النهائي ليس تقريراً لمرة واحدة. إنه **قدرة مؤسسية** — الأهلية المستمرة لمراقبة جدوى التدفق النقدي قصير الأمد مع نمو الشركة.
-
-</div>
+Distributed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).

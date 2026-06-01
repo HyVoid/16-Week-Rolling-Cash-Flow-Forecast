@@ -1,4 +1,4 @@
-<img width="1672" height="941" alt="ChatGPT Image May 25, 2026, 03_53_03 PM" src="https://github.com/user-attachments/assets/1e78d677-8bdf-4701-a453-71552488cae4" /># Prevent Cash Shortfalls Before They Reach the Payment Date
+# Prevent Cash Shortfalls Before They Reach the Payment Date
 
 <div align="center">
 

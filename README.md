@@ -8,7 +8,7 @@
 
 **Designed for consumer goods, wholesale, and manufacturing businesses that need to track committed cash movements, pre-payment obligations, and rolling liquidity before a shortfall occurs.**
 
-[Live Preview](https://hyvoid.github.io/rolling-cashflow-forecast/) · [Purchase Complete Excel](https://alexhasgreatestuff.gumroad.com/l/16wcashflow)
+[Live Preview](https://hyvoid.github.io/rolling-cashflow-forecast/) · [Purchase Complete Excel](https://alexhasgreatestuff.gumroad.com/l/16wcashflow?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=rolling-16-week-cashflow)
 
 </div>
 
@@ -209,7 +209,7 @@ The workbook is intended to be a decision-support and planning tool. It does not
 
 Use the complete Excel workbook here:
 
-[Purchase the complete Excel workbook →](https://alexhasgreatestuff.gumroad.com/l/16wcashflow)
+[Purchase the complete Excel workbook →](https://alexhasgreatestuff.gumroad.com/l/16wcashflow?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=rolling-16-week-cashflow)
 
 ---
 

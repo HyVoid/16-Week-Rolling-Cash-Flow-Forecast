@@ -8,7 +8,7 @@
 
 **Designed for consumer goods, wholesale, and manufacturing businesses that need to track committed cash movements, pre-payment obligations, and rolling liquidity before a shortfall occurs.**
 
-[Live Preview](https://hyvoid.github.io/rolling-cashflow-forecast/) · [Purchase Complete Excel](https://alexhasgreatestuff.gumroad.com/l/16wcashflow?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=rolling-16-week-cashflow)
+[Live Preview](https://hyvoid.github.io/rolling-cashflow-forecast/) · [Purchase Complete Excel](https://www.theseusworkshop.com/l/16wcashflow?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=rolling-16-week-cashflow)
 
 </div>
 
@@ -209,7 +209,7 @@ The workbook is intended to be a decision-support and planning tool. It does not
 
 Use the complete Excel workbook here:
 
-[Purchase the complete Excel workbook →](https://alexhasgreatestuff.gumroad.com/l/16wcashflow?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=rolling-16-week-cashflow)
+[Purchase the complete Excel workbook →](https://www.theseusworkshop.com/l/16wcashflow?utm_source=github&utm_medium=GitHub%20README&utm_campaign=readme%20new%20launch&utm_content=rolling-16-week-cashflow)
 
 ---
 
@@ -233,7 +233,7 @@ No ERP. No treasury software subscription. No custom development project.
 
 Just clear business logic, structured data, and repeatable decision support — delivered in software your team already has.
 
-If your operation involves cash management, procurement cycles, or customer billing structures that currently live in someone's head or a disconnected spreadsheet, [see what else is available →](https://alexhasgreatestuff.gumroad.com)
+If your operation involves cash management, procurement cycles, or customer billing structures that currently live in someone's head or a disconnected spreadsheet, [see what else is available →](https://www.theseusworkshop.com)
 
 ---
 
